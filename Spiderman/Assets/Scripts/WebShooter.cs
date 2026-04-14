@@ -99,4 +99,12 @@ public class WebShooter : MonoBehaviour
         isReloading = false;
         Debug.Log($"Recargado! {currentAmmo}/{maxAmmo}");
     }
+    // Llamado por SpiderManGestureDetector
+    public void ActivateFromGesture()
+    {
+        if (currentAmmo > 0 && !isReloading)
+            Shoot();
+        else
+            Debug.Log("Sin telarañas — recarga con el gesto de grip");
+    }
 }
