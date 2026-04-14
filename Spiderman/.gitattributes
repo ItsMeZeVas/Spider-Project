@@ -1,0 +1,57 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+# =========================================
+# Unity - Force text for mergeable files
+# =========================================
+
+*.cs text diff=csharp
+*.shader text
+*.cginc text
+*.compute text
+*.hlsl text
+
+*.unity text merge=unityyamlmerge diff
+*.prefab text merge=unityyamlmerge diff
+*.asset text merge=unityyamlmerge diff
+*.mat text merge=unityyamlmerge diff
+*.anim text merge=unityyamlmerge diff
+*.controller text merge=unityyamlmerge diff
+
+*.cs text eol=lf
+*.meta text eol=lf
+*.prefab text eol=lf
+
+# =========================================
+# Git LFS - Large Binary Files
+# =========================================
+
+# 3D Models
+*.fbx filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+*.blend filter=lfs diff=lfs merge=lfs -text
+
+# Textures & Images
+*.psd filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.tga filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text
+*.hdr filter=lfs diff=lfs merge=lfs -text
+
+# Audio
+*.wav filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+
+# Video
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.mov filter=lfs diff=lfs merge=lfs -text
+
+# Compressed files
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.rar filter=lfs diff=lfs merge=lfs -text
+
+# Builds
+*.apk filter=lfs diff=lfs merge=lfs -text
+*.aab filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
