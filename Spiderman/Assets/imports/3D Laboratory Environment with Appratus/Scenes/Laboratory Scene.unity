@@ -8472,7 +8472,7 @@ MonoBehaviour:
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2016723993}
   shootForce: 20
-  maxAmmo: 7
+  maxAmmo: 1000
   triggerAction: {fileID: 0}
   gripAction: {fileID: 0}
 --- !u!114 &429477818
@@ -8490,7 +8490,7 @@ MonoBehaviour:
   hand: {fileID: 429477815}
   skeleton: {fileID: 429477814}
   curledThreshold: 0.07
-  extendedThreshold: 0.09
+  extendedThreshold: 0.03
   cooldown: 0.8
   webShooter: {fileID: 429477817}
 --- !u!1 &430248527 stripped
@@ -19449,6 +19449,8 @@ GameObject:
   - component: {fileID: 1042887128}
   - component: {fileID: 1042887127}
   - component: {fileID: 1042887126}
+  - component: {fileID: 1042887134}
+  - component: {fileID: 1042887133}
   m_Layer: 0
   m_Name: '[BuildingBlock] Hand Tracking right'
   m_TagString: Untagged
@@ -19468,7 +19470,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2039984285}
   m_Father: {fileID: 1856068673}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &1042887126
@@ -19630,6 +19633,42 @@ MonoBehaviour:
   installationRoutineCheckpoint:
     _installationRoutineId: 
     _installationVariants: []
+--- !u!114 &1042887133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042887124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95348017e4f68b64d8ef48b3b4445727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooter
+  webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
+  shootPoint: {fileID: 2039984285}
+  shootForce: 20
+  maxAmmo: 1000
+  triggerAction: {fileID: 0}
+  gripAction: {fileID: 0}
+--- !u!114 &1042887134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042887124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12c8fdc691ff9654baeec84aea683034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SpiderManGestureDetector
+  hand: {fileID: 1042887131}
+  skeleton: {fileID: 1042887130}
+  curledThreshold: 0.07
+  extendedThreshold: 0.03
+  cooldown: 0.8
+  webShooter: {fileID: 1042887133}
 --- !u!1 &1044092814 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3777058534420937386, guid: 58d93148047363d45a12c673b277817d, type: 3}
@@ -41304,6 +41343,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.59854615, y: 1.0615191, z: 0.8361964}
   m_Center: {x: 0.00000047683716, y: 0.5157974, z: 0.0000009536743}
+--- !u!1 &2039984284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2039984285}
+  m_Layer: 0
+  m_Name: Shootpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2039984285
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039984284}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1042887125}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2040096725
 PrefabInstance:
   m_ObjectHideFlags: 0
