@@ -15426,6 +15426,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.31872204, y: 0.032843698, z: 0.07741624}
   m_Center: {x: -0.00000006224786, y: 0.016422294, z: 0.000000021073497}
+--- !u!1 &827385612
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 827385613}
+  m_Layer: 0
+  m_Name: Trackpoints (6)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &827385613
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 827385612}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.68, y: 0, z: -5.68}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1968934640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &829337477 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 2d6b31bbb0cc4d74f9eb0dcbe73380be, type: 3}
@@ -24128,6 +24159,7 @@ GameObject:
   - component: {fileID: 1318712921}
   - component: {fileID: 1318712920}
   - component: {fileID: 1318712919}
+  - component: {fileID: 1318712923}
   - component: {fileID: 1318712918}
   m_Layer: 0
   m_Name: Cube (1)
@@ -24247,6 +24279,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1318712923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318712917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 187b5ddf06c917e4684a695a9bd9558a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetMover
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  speed: 3
+  waitTime: 0
+  loop: 1
 --- !u!1 &1319668792 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: da8d6c6ca953aa24a924db0a93d368ec, type: 3}
@@ -31370,6 +31421,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 99c079541e57ab042b54c9607050eb24, type: 3}
   m_PrefabInstance: {fileID: 1665681088}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1666656029
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1666656030}
+  m_Layer: 0
+  m_Name: Trackpoints (5)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1666656030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666656029}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.68, y: 0, z: -9.56}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1968934640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1668198259 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7112059431661060959, guid: 513546a837bb5d44cbbb2f9939336861, type: 3}
@@ -37705,6 +37787,9 @@ Transform:
   - {fileID: 676721143}
   - {fileID: 802436943}
   - {fileID: 1303493541}
+  - {fileID: 1989171232}
+  - {fileID: 1666656030}
+  - {fileID: 827385613}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1972325986
@@ -38152,6 +38237,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3187222, y: 0.032843627, z: 0.07741624}
   m_Center: {x: 0, y: 0.016421814, z: 0.000000018626466}
+--- !u!1 &1989171231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1989171232}
+  m_Layer: 0
+  m_Name: Trackpoints (4)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1989171232
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1989171231}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -6.68, y: 0, z: -7.4823914}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1968934640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1989671445 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9028627854349766800, guid: 24c728c68968f6447b856666f27564a5, type: 3}
