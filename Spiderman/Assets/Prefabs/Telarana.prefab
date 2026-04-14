@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 7902916711244080103}
   - component: {fileID: 5727183662191133553}
   - component: {fileID: 8003680317514474057}
+  - component: {fileID: 2337551424984403411}
+  - component: {fileID: 5061947238938990931}
   - component: {fileID: 4566900982165316729}
   - component: {fileID: 8829806554966575916}
   m_Layer: 0
@@ -114,6 +116,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2337551424984403411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3140167008773273389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4c4fc08fbbbba84ca5a314634f557f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebProjectile
+--- !u!114 &5061947238938990931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3140167008773273389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c84adb15465bc94e8934bc1f62bd1db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BallFadeDestroy
+  lifetime: 5
+  fadeDuration: 1.2
+  destroyEvenIfNotHit: 1
 --- !u!114 &4566900982165316729
 MonoBehaviour:
   m_ObjectHideFlags: 0

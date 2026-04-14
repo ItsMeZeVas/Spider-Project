@@ -1,73 +1,115 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TargetMover : MonoBehaviour
 {
     [Header("Waypoints (Emptys)")]
-    [Tooltip("Arrastra aquí los Empty GameObjects en el orden que quieres que siga")]
+    [Tooltip("Arrastra aquí todos los Empty GameObjects")]
     public Transform[] waypoints;
 
-    [Header("Movimiento")]
-    [Tooltip("Velocidad de movimiento")]
-    public float speed = 3f;
+    [Header("Movimiento Random")]
+    public float speed = 4f;
+    public float minWaitTime = 0.5f;
+    public float maxWaitTime = 2f;
+    public bool avoidRepeat = true;
 
-    [Tooltip("Tiempo de espera en cada waypoint (0 = sin pausa)")]
-    public float waitTime = 0f;
+    [Header("Evitar Superposición")]
+    [Tooltip("Tiempo máximo que esperará si el waypoint está ocupado")]
+    public float maxWaitForFreeSlot = 3f;
 
-    [Tooltip("Si es true, vuelve al primer waypoint al terminar (loop)")]
-    public bool loop = true;
+    // Sistema estático para saber qué waypoints están ocupados
+    private static HashSet<Transform> occupiedWaypoints = new HashSet<Transform>();
 
     private int currentWaypointIndex = 0;
     private bool isMoving = true;
+    private Transform currentTargetWP = null;
+
+    void OnDestroy()
+    {
+        // Liberar el waypoint cuando el objeto se destruya
+        if (currentTargetWP != null)
+            occupiedWaypoints.Remove(currentTargetWP);
+    }
 
     void Start()
     {
-        if (waypoints.Length == 0)
+        if (waypoints == null || waypoints.Length < 2)
         {
-            Debug.LogWarning("TargetMover: No hay waypoints asignados en " + gameObject.name);
+            Debug.LogWarning("TargetMover: Necesitas al menos 2 waypoints.");
             return;
         }
 
-        // Colocar el target en el primer waypoint al inicio
-        transform.position = waypoints[0].position;
-        StartCoroutine(MoveAlongPath());
+        // Empezar en un waypoint libre
+        currentWaypointIndex = GetRandomFreeWaypoint();
+        if (currentWaypointIndex != -1)
+        {
+            currentTargetWP = waypoints[currentWaypointIndex];
+            occupiedWaypoints.Add(currentTargetWP);
+            transform.position = currentTargetWP.position;
+        }
+
+        StartCoroutine(MoveRandomly());
     }
 
-    private IEnumerator MoveAlongPath()
+    private int GetRandomFreeWaypoint()
+    {
+        int attempts = 0;
+        int index;
+
+        do
+        {
+            index = Random.Range(0, waypoints.Length);
+            attempts++;
+
+            // Si después de muchos intentos no encuentra, permite ocupados
+            if (attempts > 15)
+                return Random.Range(0, waypoints.Length);
+
+        } while (occupiedWaypoints.Contains(waypoints[index]));
+
+        return index;
+    }
+
+    private IEnumerator MoveRandomly()
     {
         while (isMoving)
         {
-            Transform targetWP = waypoints[currentWaypointIndex];
+            // Elegir siguiente waypoint libre
+            int nextIndex = GetRandomFreeWaypoint();
 
-            // Mover hacia el waypoint actual
+            if (nextIndex == -1)
+            {
+                // Si no hay ninguno libre, esperar un poco
+                yield return new WaitForSeconds(0.5f);
+                continue;
+            }
+
+            // Liberar el waypoint actual antes de movernos
+            if (currentTargetWP != null)
+                occupiedWaypoints.Remove(currentTargetWP);
+
+            currentWaypointIndex = nextIndex;
+            currentTargetWP = waypoints[currentWaypointIndex];
+            occupiedWaypoints.Add(currentTargetWP);
+
+            Transform targetWP = currentTargetWP;
+
+            // Mover hacia el waypoint
             while (Vector3.Distance(transform.position, targetWP.position) > 0.05f)
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetWP.position, speed * Time.deltaTime);
                 yield return null;
             }
 
-            // Llegó al waypoint
             transform.position = targetWP.position;
 
-            // Espera opcional
-            if (waitTime > 0)
-                yield return new WaitForSeconds(waitTime);
-
-            // Avanzar al siguiente waypoint
-            currentWaypointIndex++;
-
-            // Si llegó al final
-            if (currentWaypointIndex >= waypoints.Length)
-            {
-                if (loop)
-                    currentWaypointIndex = 0;   // Volver al inicio
-                else
-                    isMoving = false;           // Detenerse
-            }
+            // Espera random
+            float wait = Random.Range(minWaitTime, maxWaitTime);
+            yield return new WaitForSeconds(wait);
         }
     }
 
-    // Opcional: Pausar / reanudar el movimiento
     public void PauseMovement() => isMoving = false;
     public void ResumeMovement() => isMoving = true;
 }

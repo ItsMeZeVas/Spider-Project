@@ -6631,9 +6631,14 @@ MonoBehaviour:
   - {fileID: 676721143}
   - {fileID: 802436943}
   - {fileID: 1303493541}
+  - {fileID: 1989171232}
+  - {fileID: 1666656030}
+  - {fileID: 827385613}
   speed: 3
-  waitTime: 0
-  loop: 1
+  minWaitTime: 0.2
+  maxWaitTime: 0.5
+  avoidRepeat: 1
+  maxWaitForFreeSlot: 3
 --- !u!1 &363286334 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4661188770769472284, guid: cbb3159864b0a1348ab992ae9813d64d, type: 3}
@@ -24292,12 +24297,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TargetMover
   waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 676721143}
+  - {fileID: 802436943}
+  - {fileID: 1303493541}
+  - {fileID: 1989171232}
+  - {fileID: 1666656030}
+  - {fileID: 827385613}
   speed: 3
-  waitTime: 0
-  loop: 1
+  minWaitTime: 0.2
+  maxWaitTime: 0.5
+  avoidRepeat: 1
+  maxWaitForFreeSlot: 3
 --- !u!1 &1319668792 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: da8d6c6ca953aa24a924db0a93d368ec, type: 3}

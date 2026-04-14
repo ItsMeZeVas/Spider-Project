@@ -5,6 +5,13 @@ public class BallCollision : MonoBehaviour
     [Header("Configuración")]
     public string targetTag = "Target";
 
+    private BallFadeDestroy ballFade;
+
+    void Awake()
+    {
+        ballFade = GetComponent<BallFadeDestroy>();
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag(targetTag))
@@ -16,8 +23,15 @@ public class BallCollision : MonoBehaviour
                 target.ChangeMaterial();
             }
 
-            // Destruir la bola después del impacto
-            Destroy(gameObject, 0.05f);
+            // Destruir la bola con fade suave en vez de inmediato
+            if (ballFade != null)
+            {
+                ballFade.DestroyOnImpact();
+            }
+            else
+            {
+                Destroy(gameObject, 0.1f);
+            }
         }
     }
 }
