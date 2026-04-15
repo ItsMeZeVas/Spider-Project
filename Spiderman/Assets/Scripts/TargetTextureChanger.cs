@@ -12,10 +12,10 @@ public class TargetMaterialChanger : MonoBehaviour
 
     [Header("Desaparición con Fade")]
     [Tooltip("Tiempo en segundos que dura el fade out (transparencia)")]
-    public float fadeDuration = 1.5f;     // ← Tiempo del fade suave
+    public float fadeDuration = 1.5f;
 
-    [Tooltip("Tiempo adicional de espera después del impacto antes de empezar el fade (0 = inmediato)")]
-    public float delayBeforeFade = 0.8f;  // ← Tiempo que se queda con el material "hit" antes de empezar a desaparecer
+    [Tooltip("Tiempo adicional de espera después del impacto antes de empezar el fade")]
+    public float delayBeforeFade = 0.8f;
 
     [Header("Opciones")]
     public bool changeOnlyOnce = true;
@@ -23,7 +23,6 @@ public class TargetMaterialChanger : MonoBehaviour
     private Renderer targetRenderer;
     private ScoreManager scoreManager;
     private bool hasBeenHit = false;
-    private Material originalMaterial;   // Para guardar referencia si es necesario
 
     void Awake()
     {
@@ -39,10 +38,15 @@ public class TargetMaterialChanger : MonoBehaviour
         if (hasBeenHit && changeOnlyOnce)
             return;
 
-        // Cambiar al material de impacto
+        // Cambiar a hitMaterial en TODOS los slots de material
         if (targetRenderer != null && hitMaterial != null)
         {
-            targetRenderer.material = hitMaterial;
+            Material[] newMaterials = new Material[targetRenderer.materials.Length];
+            for (int i = 0; i < newMaterials.Length; i++)
+            {
+                newMaterials[i] = hitMaterial;
+            }
+            targetRenderer.materials = newMaterials;
         }
 
         // Sumar puntos
@@ -52,39 +56,36 @@ public class TargetMaterialChanger : MonoBehaviour
         }
 
         hasBeenHit = true;
-
         Debug.Log($"{gameObject.name} golpeado → +{pointsValue} puntos");
 
-        // Iniciar la rutina de fade + destroy
+        // Iniciar fade en todos los materiales
         StartCoroutine(FadeOutAndDestroy());
     }
 
     private IEnumerator FadeOutAndDestroy()
     {
-        // Esperar el delay antes de empezar el fade
         if (delayBeforeFade > 0)
             yield return new WaitForSeconds(delayBeforeFade);
 
-        if (targetRenderer == null || targetRenderer.material == null)
+        if (targetRenderer == null || targetRenderer.materials == null || targetRenderer.materials.Length == 0)
         {
             Destroy(gameObject);
             yield break;
         }
 
-        Material mat = targetRenderer.material;
-        Color originalColor = mat.color;
+        // Guardamos referencia a todos los materiales actuales
+        Material[] materials = targetRenderer.materials;
+        Color[] originalColors = new Color[materials.Length];
 
-        // Asegurarnos que el shader permita transparencia
-        // (Esto funciona bien en Built-in y URP Lit)
-        mat.SetFloat("_Surface", 1);           // 1 = Transparent (URP)
-        mat.SetOverrideTag("RenderType", "Transparent");
-        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-        mat.SetInt("_ZWrite", 0);
-        mat.DisableKeyword("_ALPHATEST_ON");
-        mat.EnableKeyword("_ALPHABLEND_ON");
-        mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-        mat.renderQueue = 3000;
+        // Configurar todos los materiales para modo transparente
+        for (int i = 0; i < materials.Length; i++)
+        {
+            if (materials[i] != null)
+            {
+                originalColors[i] = materials[i].color;
+                SetupTransparentMaterial(materials[i]);
+            }
+        }
 
         float elapsed = 0f;
 
@@ -93,28 +94,61 @@ public class TargetMaterialChanger : MonoBehaviour
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
 
-            Color newColor = originalColor;
-            newColor.a = alpha;
-            mat.color = newColor;
+            // Aplicar alpha a TODOS los materiales
+            for (int i = 0; i < materials.Length; i++)
+            {
+                if (materials[i] != null)
+                {
+                    Color newColor = originalColors[i];
+                    newColor.a = alpha;
+                    materials[i].color = newColor;
+                }
+            }
 
-            yield return null;   // Espera al siguiente frame
+            yield return null;
         }
 
         // Asegurar que termine en alpha 0
-        Color finalColor = originalColor;
-        finalColor.a = 0f;
-        mat.color = finalColor;
+        for (int i = 0; i < materials.Length; i++)
+        {
+            if (materials[i] != null)
+            {
+                Color finalColor = originalColors[i];
+                finalColor.a = 0f;
+                materials[i].color = finalColor;
+            }
+        }
 
-        // Destruir el objeto
         Destroy(gameObject);
     }
 
-    // Por si quieres resetear (opcional)
+    // Configuración para modo transparente (funciona en Built-in y URP)
+    private void SetupTransparentMaterial(Material mat)
+    {
+        if (mat == null) return;
+
+        mat.SetFloat("_Surface", 1);           // Transparent (URP)
+        mat.SetOverrideTag("RenderType", "Transparent");
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        mat.SetInt("_ZWrite", 0);
+        mat.DisableKeyword("_ALPHATEST_ON");
+        mat.EnableKeyword("_ALPHABLEND_ON");
+        mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        mat.renderQueue = 3000;
+    }
+
     public void ResetMaterial()
     {
         if (targetRenderer != null && normalMaterial != null)
         {
-            targetRenderer.material = normalMaterial;
+            Material[] newMaterials = new Material[targetRenderer.materials.Length];
+            for (int i = 0; i < newMaterials.Length; i++)
+            {
+                newMaterials[i] = normalMaterial;
+            }
+            targetRenderer.materials = newMaterials;
+
             hasBeenHit = false;
         }
     }
