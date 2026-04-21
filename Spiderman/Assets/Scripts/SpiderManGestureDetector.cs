@@ -6,15 +6,25 @@ public class SpiderManGestureDetector : MonoBehaviour
     public OVRHand hand;
     public OVRSkeleton skeleton;
 
-    [Header("Configuración")]
-    public float curledThreshold   = 0.07f;
-    public float extendedThreshold = 0.09f;
+    [Header("Dedos ESTIRADOS (índice y meñique)")]
+    [Tooltip("Distancia mínima para considerar el índice estirado")]
+    public float indexExtendedThreshold = 0.09f;
+    [Tooltip("Distancia mínima para considerar el meñique estirado")]
+    public float pinkyExtendedThreshold = 0.09f;
+
+    [Header("Dedos DOBLADOS (medio, anular, pulgar)")]
+    [Tooltip("Distancia máxima para considerar el medio doblado")]
+    public float middleCurledThreshold = 0.07f;
+    [Tooltip("Distancia máxima para considerar el anular doblado")]
+    public float ringCurledThreshold = 0.07f;
+    [Tooltip("Distancia máxima para considerar el pulgar doblado")]
+    public float thumbCurledThreshold = 0.07f;
 
     [Header("Acción")]
     public WebShooter webShooter;
 
     // ── estado ────────────────────────────────────────────────────────────────
-    private bool gestureWasActive = false;  // pose activa el frame anterior
+    private bool gestureWasActive = false;
 
     void Update()
     {
@@ -24,38 +34,28 @@ public class SpiderManGestureDetector : MonoBehaviour
 
         // Solo dispara en el FLANCO DE SUBIDA (cuando entra en la pose)
         if (gestureActive && !gestureWasActive)
-        {
             webShooter?.ActivateFromGesture();
-        }
 
         gestureWasActive = gestureActive;
     }
 
     bool IsSpiderManGesture()
     {
-        bool indexExtended  = IsExtended(OVRSkeleton.BoneId.Hand_Index3);
-        bool pinkyExtended  = IsExtended(OVRSkeleton.BoneId.Hand_Pinky3);
-        bool middleCurled   = IsCurled(OVRSkeleton.BoneId.Hand_Middle3);
-        bool ringCurled     = IsCurled(OVRSkeleton.BoneId.Hand_Ring3);
-        bool thumbCurled    = IsCurled(OVRSkeleton.BoneId.Hand_ThumbTip);
+        bool indexExtended = GetDistance(OVRSkeleton.BoneId.Hand_Index3) >= indexExtendedThreshold;
+        bool pinkyExtended = GetDistance(OVRSkeleton.BoneId.Hand_Pinky3) >= pinkyExtendedThreshold;
+        bool middleCurled = GetDistance(OVRSkeleton.BoneId.Hand_Middle3) < middleCurledThreshold;
+        bool ringCurled = GetDistance(OVRSkeleton.BoneId.Hand_Ring3) < ringCurledThreshold;
+        bool thumbCurled = GetDistance(OVRSkeleton.BoneId.Hand_ThumbTip) < thumbCurledThreshold;
 
         return indexExtended && pinkyExtended && middleCurled && ringCurled && thumbCurled;
     }
 
-    bool IsExtended(OVRSkeleton.BoneId tipId)
+    float GetDistance(OVRSkeleton.BoneId tipId)
     {
-        OVRBone tip   = GetBone(tipId);
+        OVRBone tip = GetBone(tipId);
         OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
-        if (tip == null || wrist == null) return false;
-        return Vector3.Distance(tip.Transform.position, wrist.Transform.position) >= extendedThreshold;
-    }
-
-    bool IsCurled(OVRSkeleton.BoneId tipId)
-    {
-        OVRBone tip   = GetBone(tipId);
-        OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
-        if (tip == null || wrist == null) return false;
-        return Vector3.Distance(tip.Transform.position, wrist.Transform.position) < curledThreshold;
+        if (tip == null || wrist == null) return 0f;
+        return Vector3.Distance(tip.Transform.position, wrist.Transform.position);
     }
 
     OVRBone GetBone(OVRSkeleton.BoneId id)
@@ -70,15 +70,17 @@ public class SpiderManGestureDetector : MonoBehaviour
     void DebugDistances()
     {
         if (skeleton == null) { Debug.Log("Skeleton no asignado"); return; }
-        OVRSkeleton.BoneId[] tips  = { OVRSkeleton.BoneId.Hand_Index3, OVRSkeleton.BoneId.Hand_Middle3, OVRSkeleton.BoneId.Hand_Ring3, OVRSkeleton.BoneId.Hand_Pinky3, OVRSkeleton.BoneId.Hand_ThumbTip };
-        string[]             names = { "Índice", "Medio", "Anular", "Meñique", "Pulgar" };
-        OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
-        for (int i = 0; i < tips.Length; i++)
-        {
-            OVRBone tip = GetBone(tips[i]);
-            if (tip != null && wrist != null)
-                Debug.Log($"{names[i]}: {Vector3.Distance(tip.Transform.position, wrist.Transform.position):F4}m");
-        }
+
+        var tips = new[] {
+            (OVRSkeleton.BoneId.Hand_Index3,   "Índice  "),
+            (OVRSkeleton.BoneId.Hand_Middle3,  "Medio   "),
+            (OVRSkeleton.BoneId.Hand_Ring3,    "Anular  "),
+            (OVRSkeleton.BoneId.Hand_Pinky3,   "Meñique "),
+            (OVRSkeleton.BoneId.Hand_ThumbTip, "Pulgar  "),
+        };
+
+        foreach (var (id, name) in tips)
+            Debug.Log($"{name}: {GetDistance(id):F4}m");
     }
 #endif
 }
