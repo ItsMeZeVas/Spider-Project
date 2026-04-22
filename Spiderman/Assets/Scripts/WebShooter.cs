@@ -1,12 +1,17 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class WebShooter : MonoBehaviour
 {
+    [Header("Antispam")]
+    public float gestureShotCooldown = 0.20f;
+
+    private float lastGestureShotTime = -999f;
     [Header("Configuración")]
     public GameObject webProjectilePrefab;
-    public Transform  shootPoint;
-    public float      shootForce = 20f;
+    public Transform shootPoint;
+    public float shootForce = 20f;
 
     [Header("Munición")]
     public int maxAmmo = 7;
@@ -31,10 +36,11 @@ public class WebShooter : MonoBehaviour
     public AudioVariation[] reloadSounds;
     public AudioVariation[] emptySounds;
 
-    // Pitch aleatorio
+    [Header("Pitch aleatorio")]
     [Range(0.1f, 1.2f)] public float minPitch = 0.9f;
     [Range(0.1f, 1.2f)] public float maxPitch = 1.1f;
-    private int  currentAmmo;
+
+    private int currentAmmo;
     private bool isReloading;
     private bool triggerWasPressed;
     private bool gripWasPressed;
@@ -62,6 +68,9 @@ public class WebShooter : MonoBehaviour
         HandleGrip();
     }
 
+    // ==============================
+    // INPUT TRIGGER (DISPARO NORMAL)
+    // ==============================
     void HandleTrigger()
     {
         if (triggerAction == null) return;
@@ -71,15 +80,22 @@ public class WebShooter : MonoBehaviour
         if (triggerPressed && !triggerWasPressed)
         {
             if (currentAmmo > 0 && !isReloading)
+            {
                 Shoot();
+            }
             else
-                Debug.Log("Sin telarañas — usa el Grip para recargar");
+            {
+                Debug.Log("Sin telarañas — usa el Grip o gesto para recargar");
                 PlayRandomSound(emptySounds);
+            }
         }
 
         triggerWasPressed = triggerPressed;
     }
 
+    // ==============================
+    // INPUT GRIP (RECARGA NORMAL)
+    // ==============================
     void HandleGrip()
     {
         if (gripAction == null) return;
@@ -87,45 +103,92 @@ public class WebShooter : MonoBehaviour
         bool gripPressed = gripAction.action.ReadValue<float>() > 0.5f;
 
         if (gripPressed && !gripWasPressed && !isReloading)
+        {
             StartCoroutine(Reload());
+        }
 
         gripWasPressed = gripPressed;
     }
 
+    // ==============================
+    // DISPARO
+    // ==============================
     void Shoot()
     {
         if (webProjectilePrefab == null || shootPoint == null) return;
 
         currentAmmo--;
+
         Debug.Log($"Telarañas restantes: {currentAmmo}/{maxAmmo}");
+
         PlayRandomSound(shootSounds);
-        GameObject projectile = Instantiate(webProjectilePrefab, shootPoint.position, shootPoint.rotation);
+
+        GameObject projectile = Instantiate(
+            webProjectilePrefab,
+            shootPoint.position,
+            shootPoint.rotation
+        );
 
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
+
         if (rb != null)
+        {
             rb.AddForce(shootPoint.forward * shootForce, ForceMode.VelocityChange);
+        }
     }
 
-    System.Collections.IEnumerator Reload()
+    // ==============================
+    // RECARGA
+    // ==============================
+    IEnumerator Reload()
     {
         isReloading = true;
+
         Debug.Log("Recargando...");
-        PlayRandomSound(reloadSounds); //SONIDO
+        PlayRandomSound(reloadSounds);
+
         yield return new WaitForSeconds(1.5f);
 
         currentAmmo = maxAmmo;
         isReloading = false;
+
         Debug.Log($"Recargado! {currentAmmo}/{maxAmmo}");
     }
-    // Llamado por SpiderManGestureDetector
+
+    // ==============================
+    // GESTOS (LLAMADOS DESDE EL DETECTOR)
+    // ==============================
+
+    // 🕷️ Disparo con gesto
     public void ActivateFromGesture()
     {
+        if (Time.time < lastGestureShotTime + gestureShotCooldown)
+            return;
+
         if (currentAmmo > 0 && !isReloading)
+        {
+            lastGestureShotTime = Time.time;
             Shoot();
+        }
         else
-            Debug.Log("Sin telarañas — recarga con el gesto de grip");
+        {
+            Debug.Log("Sin telarañas — recarga con gesto");
+            PlayRandomSound(emptySounds);
+        }
     }
 
+    // ✊ Recarga con gesto
+    public void ActivateReloadFromGesture()
+    {
+        if (!isReloading && currentAmmo < maxAmmo)
+        {
+            StartCoroutine(Reload());
+        }
+    }
+
+    // ==============================
+    // AUDIO
+    // ==============================
     void PlayRandomSound(AudioVariation[] sounds)
     {
         if (audioSource == null || sounds == null || sounds.Length == 0) return;
