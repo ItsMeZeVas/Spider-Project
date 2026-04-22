@@ -8,13 +8,20 @@ public class SpiderManGestureDetector : MonoBehaviour
 
     [Header("Configuración")]
     [Tooltip("Distancia menor a esto = dedo doblado")]
-    public float curledThreshold = 0.06f;
+    public float curledThreshold = 0.07f;
 
     [Tooltip("Distancia mayor o igual a esto = dedo extendido")]
-    public float extendedThreshold = 0.11f;
+    public float extendedThreshold = 0.03f;
 
     [Tooltip("Hace más estricta la detección de puño")]
-    public float fistExtraTolerance = 0.02f;
+    public float fistExtraTolerance = 0.015f;
+
+    [Header("Estabilidad")]
+    [Tooltip("Tiempo mínimo entre activaciones de cualquier gesto")]
+    public float gestureCooldown = 0.25f;
+
+    [Tooltip("Tiempo mínimo para permitir recarga después de un disparo")]
+    public float reloadBlockAfterShot = 0.35f;
 
     [Header("Acción")]
     public WebShooter webShooter;
@@ -26,6 +33,9 @@ public class SpiderManGestureDetector : MonoBehaviour
     private bool fistGestureWasActive = false;
     private bool skeletonReady = false;
 
+    private float lastGestureTime = -999f;
+    private float lastShotGestureTime = -999f;
+
     void Update()
     {
         if (hand == null || skeleton == null || webShooter == null)
@@ -34,7 +44,6 @@ public class SpiderManGestureDetector : MonoBehaviour
         if (!hand.IsTracked)
             return;
 
-        // Esperar a que el skeleton esté listo
         if (!skeletonReady)
         {
             if (skeleton.IsInitialized)
@@ -55,24 +64,30 @@ public class SpiderManGestureDetector : MonoBehaviour
         if (!fistActive)
             spiderActive = IsSpiderManGesture();
 
-        // Detectar transición (no spam)
-        if (fistActive && !fistGestureWasActive)
+        bool cooldownPassed = Time.time >= lastGestureTime + gestureCooldown;
+        bool reloadWindowPassed = Time.time >= lastShotGestureTime + reloadBlockAfterShot;
+
+        // RECARGA
+        if (fistActive && !fistGestureWasActive && cooldownPassed && reloadWindowPassed)
         {
             if (debugLogs) Debug.Log($"{name}: ✊ RECARGA detectada");
             webShooter.ActivateReloadFromGesture();
+            lastGestureTime = Time.time;
         }
 
-        if (spiderActive && !spiderGestureWasActive)
+        // DISPARO
+        if (spiderActive && !spiderGestureWasActive && cooldownPassed)
         {
             if (debugLogs) Debug.Log($"{name}: 🕷️ DISPARO detectado");
             webShooter.ActivateFromGesture();
+            lastGestureTime = Time.time;
+            lastShotGestureTime = Time.time;
         }
 
         fistGestureWasActive = fistActive;
         spiderGestureWasActive = spiderActive;
     }
 
-    // 🕷️ Gesto Spider-Man
     bool IsSpiderManGesture()
     {
         bool thumbExtended = IsExtended(OVRSkeleton.BoneId.Hand_ThumbTip);
@@ -82,15 +97,9 @@ public class SpiderManGestureDetector : MonoBehaviour
         bool middleCurled = IsCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
         bool ringCurled = IsCurled(OVRSkeleton.BoneId.Hand_RingTip);
 
-        if (debugLogs)
-        {
-            Debug.Log($"Spider -> Thumb:{thumbExtended} Index:{indexExtended} Pinky:{pinkyExtended} Mid:{middleCurled} Ring:{ringCurled}");
-        }
-
         return thumbExtended && indexExtended && pinkyExtended && middleCurled && ringCurled;
     }
 
-    // ✊ Gesto puño
     bool IsFistGesture()
     {
         bool thumbCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_ThumbTip);
@@ -98,11 +107,6 @@ public class SpiderManGestureDetector : MonoBehaviour
         bool middleCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
         bool ringCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_RingTip);
         bool pinkyCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_PinkyTip);
-
-        if (debugLogs)
-        {
-            Debug.Log($"Fist -> T:{thumbCurled} I:{indexCurled} M:{middleCurled} R:{ringCurled} P:{pinkyCurled}");
-        }
 
         return thumbCurled && indexCurled && middleCurled && ringCurled && pinkyCurled;
     }
@@ -153,40 +157,4 @@ public class SpiderManGestureDetector : MonoBehaviour
 
         return null;
     }
-
-#if UNITY_EDITOR
-    [ContextMenu("Debug distancias de dedos")]
-    void DebugDistances()
-    {
-        if (skeleton == null)
-        {
-            Debug.Log("Skeleton no asignado");
-            return;
-        }
-
-        OVRSkeleton.BoneId[] tips =
-        {
-            OVRSkeleton.BoneId.Hand_ThumbTip,
-            OVRSkeleton.BoneId.Hand_IndexTip,
-            OVRSkeleton.BoneId.Hand_MiddleTip,
-            OVRSkeleton.BoneId.Hand_RingTip,
-            OVRSkeleton.BoneId.Hand_PinkyTip
-        };
-
-        string[] names = { "Pulgar", "Índice", "Medio", "Anular", "Meñique" };
-
-        OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
-
-        for (int i = 0; i < tips.Length; i++)
-        {
-            OVRBone tip = GetBone(tips[i]);
-
-            if (tip != null && wrist != null)
-            {
-                float dist = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
-                Debug.Log($"{name} | {names[i]}: {dist:F4}m");
-            }
-        }
-    }
-#endif
 }

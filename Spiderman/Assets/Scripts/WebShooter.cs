@@ -4,6 +4,10 @@ using System.Collections;
 
 public class WebShooter : MonoBehaviour
 {
+    [Header("Antispam")]
+    public float gestureShotCooldown = 0.20f;
+
+    private float lastGestureShotTime = -999f;
     [Header("Configuración")]
     public GameObject webProjectilePrefab;
     public Transform shootPoint;
@@ -158,8 +162,12 @@ public class WebShooter : MonoBehaviour
     // 🕷️ Disparo con gesto
     public void ActivateFromGesture()
     {
+        if (Time.time < lastGestureShotTime + gestureShotCooldown)
+            return;
+
         if (currentAmmo > 0 && !isReloading)
         {
+            lastGestureShotTime = Time.time;
             Shoot();
         }
         else
@@ -172,7 +180,7 @@ public class WebShooter : MonoBehaviour
     // ✊ Recarga con gesto
     public void ActivateReloadFromGesture()
     {
-        if (!isReloading)
+        if (!isReloading && currentAmmo < maxAmmo)
         {
             StartCoroutine(Reload());
         }
