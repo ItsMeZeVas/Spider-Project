@@ -8746,7 +8746,7 @@ MonoBehaviour:
   hand: {fileID: 429477815}
   skeleton: {fileID: 429477814}
   curledThreshold: 0.07
-  extendedThreshold: 0.03
+  extendedThreshold: 0.09
   webShooter: {fileID: 429477817}
 --- !u!1 &430248527 stripped
 GameObject:
@@ -20406,7 +20406,7 @@ MonoBehaviour:
   hand: {fileID: 1042887131}
   skeleton: {fileID: 1042887130}
   curledThreshold: 0.07
-  extendedThreshold: 0.03
+  extendedThreshold: 0.09
   webShooter: {fileID: 1042887133}
 --- !u!1 &1044092814 stripped
 GameObject:
@@ -35013,7 +35013,7 @@ MonoBehaviour:
   maxMovingTargetsEndgame: 15
   audioSource: {fileID: 1715833104}
   spawnClip: {fileID: 8300000, guid: 8c4b97e9d0b6d6947b1be4df40f72538, type: 3}
-  spawnVolume: 0.8
+  spawnVolume: 0.11
 --- !u!1 &1716938813 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2581742485220959495, guid: f2629ace2826e974393b395f2af2bb50, type: 3}
