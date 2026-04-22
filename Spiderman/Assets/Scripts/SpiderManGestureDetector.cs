@@ -7,61 +7,150 @@ public class SpiderManGestureDetector : MonoBehaviour
     public OVRSkeleton skeleton;
 
     [Header("Configuración")]
-    public float curledThreshold   = 0.07f;
-    public float extendedThreshold = 0.09f;
+    [Tooltip("Distancia menor a esto = dedo doblado")]
+    public float curledThreshold = 0.06f;
+
+    [Tooltip("Distancia mayor o igual a esto = dedo extendido")]
+    public float extendedThreshold = 0.11f;
+
+    [Tooltip("Hace más estricta la detección de puño")]
+    public float fistExtraTolerance = 0.02f;
 
     [Header("Acción")]
     public WebShooter webShooter;
 
-    // ── estado ────────────────────────────────────────────────────────────────
-    private bool gestureWasActive = false;  // pose activa el frame anterior
+    [Header("Debug")]
+    public bool debugLogs = false;
+
+    private bool spiderGestureWasActive = false;
+    private bool fistGestureWasActive = false;
+    private bool skeletonReady = false;
 
     void Update()
     {
-        if (!hand.IsTracked) return;
+        if (hand == null || skeleton == null || webShooter == null)
+            return;
 
-        bool gestureActive = IsSpiderManGesture();
+        if (!hand.IsTracked)
+            return;
 
-        // Solo dispara en el FLANCO DE SUBIDA (cuando entra en la pose)
-        if (gestureActive && !gestureWasActive)
+        // Esperar a que el skeleton esté listo
+        if (!skeletonReady)
         {
-            webShooter?.ActivateFromGesture();
+            if (skeleton.IsInitialized)
+            {
+                skeletonReady = true;
+                if (debugLogs) Debug.Log($"{name}: Skeleton listo");
+            }
+            else
+            {
+                return;
+            }
         }
 
-        gestureWasActive = gestureActive;
+        bool fistActive = IsFistGesture();
+        bool spiderActive = false;
+
+        // Solo detectar disparo si NO es puño
+        if (!fistActive)
+            spiderActive = IsSpiderManGesture();
+
+        // Detectar transición (no spam)
+        if (fistActive && !fistGestureWasActive)
+        {
+            if (debugLogs) Debug.Log($"{name}: ✊ RECARGA detectada");
+            webShooter.ActivateReloadFromGesture();
+        }
+
+        if (spiderActive && !spiderGestureWasActive)
+        {
+            if (debugLogs) Debug.Log($"{name}: 🕷️ DISPARO detectado");
+            webShooter.ActivateFromGesture();
+        }
+
+        fistGestureWasActive = fistActive;
+        spiderGestureWasActive = spiderActive;
     }
 
+    // 🕷️ Gesto Spider-Man
     bool IsSpiderManGesture()
     {
-        bool indexExtended  = IsExtended(OVRSkeleton.BoneId.Hand_Index3);
-        bool pinkyExtended  = IsExtended(OVRSkeleton.BoneId.Hand_Pinky3);
-        bool middleCurled   = IsCurled(OVRSkeleton.BoneId.Hand_Middle3);
-        bool ringCurled     = IsCurled(OVRSkeleton.BoneId.Hand_Ring3);
-        bool thumbCurled    = IsCurled(OVRSkeleton.BoneId.Hand_ThumbTip);
+        bool thumbExtended = IsExtended(OVRSkeleton.BoneId.Hand_ThumbTip);
+        bool indexExtended = IsExtended(OVRSkeleton.BoneId.Hand_IndexTip);
+        bool pinkyExtended = IsExtended(OVRSkeleton.BoneId.Hand_PinkyTip);
 
-        return indexExtended && pinkyExtended && middleCurled && ringCurled && thumbCurled;
+        bool middleCurled = IsCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
+        bool ringCurled = IsCurled(OVRSkeleton.BoneId.Hand_RingTip);
+
+        if (debugLogs)
+        {
+            Debug.Log($"Spider -> Thumb:{thumbExtended} Index:{indexExtended} Pinky:{pinkyExtended} Mid:{middleCurled} Ring:{ringCurled}");
+        }
+
+        return thumbExtended && indexExtended && pinkyExtended && middleCurled && ringCurled;
+    }
+
+    // ✊ Gesto puño
+    bool IsFistGesture()
+    {
+        bool thumbCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_ThumbTip);
+        bool indexCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_IndexTip);
+        bool middleCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
+        bool ringCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_RingTip);
+        bool pinkyCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_PinkyTip);
+
+        if (debugLogs)
+        {
+            Debug.Log($"Fist -> T:{thumbCurled} I:{indexCurled} M:{middleCurled} R:{ringCurled} P:{pinkyCurled}");
+        }
+
+        return thumbCurled && indexCurled && middleCurled && ringCurled && pinkyCurled;
     }
 
     bool IsExtended(OVRSkeleton.BoneId tipId)
     {
-        OVRBone tip   = GetBone(tipId);
+        OVRBone tip = GetBone(tipId);
         OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
-        if (tip == null || wrist == null) return false;
-        return Vector3.Distance(tip.Transform.position, wrist.Transform.position) >= extendedThreshold;
+
+        if (tip == null || wrist == null)
+            return false;
+
+        float distance = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
+        return distance >= extendedThreshold;
     }
 
     bool IsCurled(OVRSkeleton.BoneId tipId)
     {
-        OVRBone tip   = GetBone(tipId);
+        OVRBone tip = GetBone(tipId);
         OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
-        if (tip == null || wrist == null) return false;
-        return Vector3.Distance(tip.Transform.position, wrist.Transform.position) < curledThreshold;
+
+        if (tip == null || wrist == null)
+            return false;
+
+        float distance = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
+        return distance < curledThreshold;
+    }
+
+    bool IsStrongCurled(OVRSkeleton.BoneId tipId)
+    {
+        OVRBone tip = GetBone(tipId);
+        OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
+
+        if (tip == null || wrist == null)
+            return false;
+
+        float distance = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
+        return distance < (curledThreshold - fistExtraTolerance);
     }
 
     OVRBone GetBone(OVRSkeleton.BoneId id)
     {
         foreach (var bone in skeleton.Bones)
-            if (bone.Id == id) return bone;
+        {
+            if (bone.Id == id)
+                return bone;
+        }
+
         return null;
     }
 
@@ -69,15 +158,34 @@ public class SpiderManGestureDetector : MonoBehaviour
     [ContextMenu("Debug distancias de dedos")]
     void DebugDistances()
     {
-        if (skeleton == null) { Debug.Log("Skeleton no asignado"); return; }
-        OVRSkeleton.BoneId[] tips  = { OVRSkeleton.BoneId.Hand_Index3, OVRSkeleton.BoneId.Hand_Middle3, OVRSkeleton.BoneId.Hand_Ring3, OVRSkeleton.BoneId.Hand_Pinky3, OVRSkeleton.BoneId.Hand_ThumbTip };
-        string[]             names = { "Índice", "Medio", "Anular", "Meñique", "Pulgar" };
+        if (skeleton == null)
+        {
+            Debug.Log("Skeleton no asignado");
+            return;
+        }
+
+        OVRSkeleton.BoneId[] tips =
+        {
+            OVRSkeleton.BoneId.Hand_ThumbTip,
+            OVRSkeleton.BoneId.Hand_IndexTip,
+            OVRSkeleton.BoneId.Hand_MiddleTip,
+            OVRSkeleton.BoneId.Hand_RingTip,
+            OVRSkeleton.BoneId.Hand_PinkyTip
+        };
+
+        string[] names = { "Pulgar", "Índice", "Medio", "Anular", "Meñique" };
+
         OVRBone wrist = GetBone(OVRSkeleton.BoneId.Hand_WristRoot);
+
         for (int i = 0; i < tips.Length; i++)
         {
             OVRBone tip = GetBone(tips[i]);
+
             if (tip != null && wrist != null)
-                Debug.Log($"{names[i]}: {Vector3.Distance(tip.Transform.position, wrist.Transform.position):F4}m");
+            {
+                float dist = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
+                Debug.Log($"{name} | {names[i]}: {dist:F4}m");
+            }
         }
     }
 #endif
