@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class WebShooter : MonoBehaviour
 {
     [Header("Configuración")]
     public GameObject webProjectilePrefab;
-    public Transform  shootPoint;
-    public float      shootForce = 20f;
+    public Transform shootPoint;
+    public float shootForce = 20f;
 
     [Header("Munición")]
     public int maxAmmo = 7;
@@ -14,7 +15,8 @@ public class WebShooter : MonoBehaviour
     [Header("Input")]
     [Tooltip("XRI Right/Activate/Value")]
     public InputActionReference triggerAction;
-    [Tooltip("XRI Right/Select/Value  (Grip)")]
+
+    [Tooltip("XRI Right/Select/Value (Grip)")]
     public InputActionReference gripAction;
 
     [System.Serializable]
@@ -26,15 +28,15 @@ public class WebShooter : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource audioSource;
-
     public AudioVariation[] shootSounds;
     public AudioVariation[] reloadSounds;
     public AudioVariation[] emptySounds;
 
-    // Pitch aleatorio
+    [Header("Pitch aleatorio")]
     [Range(0.1f, 1.2f)] public float minPitch = 0.9f;
     [Range(0.1f, 1.2f)] public float maxPitch = 1.1f;
-    private int  currentAmmo;
+
+    private int currentAmmo;
     private bool isReloading;
     private bool triggerWasPressed;
     private bool gripWasPressed;
@@ -71,10 +73,14 @@ public class WebShooter : MonoBehaviour
         if (triggerPressed && !triggerWasPressed)
         {
             if (currentAmmo > 0 && !isReloading)
+            {
                 Shoot();
+            }
             else
-                Debug.Log("Sin telarañas — usa el Grip para recargar");
+            {
+                Debug.Log("Sin telarañas — usa recarga");
                 PlayRandomSound(emptySounds);
+            }
         }
 
         triggerWasPressed = triggerPressed;
@@ -87,7 +93,9 @@ public class WebShooter : MonoBehaviour
         bool gripPressed = gripAction.action.ReadValue<float>() > 0.5f;
 
         if (gripPressed && !gripWasPressed && !isReloading)
+        {
             StartCoroutine(Reload());
+        }
 
         gripWasPressed = gripPressed;
     }
@@ -99,31 +107,54 @@ public class WebShooter : MonoBehaviour
         currentAmmo--;
         Debug.Log($"Telarañas restantes: {currentAmmo}/{maxAmmo}");
         PlayRandomSound(shootSounds);
+
         GameObject projectile = Instantiate(webProjectilePrefab, shootPoint.position, shootPoint.rotation);
 
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
+        {
             rb.AddForce(shootPoint.forward * shootForce, ForceMode.VelocityChange);
+        }
     }
 
-    System.Collections.IEnumerator Reload()
+    IEnumerator Reload()
     {
         isReloading = true;
         Debug.Log("Recargando...");
-        PlayRandomSound(reloadSounds); //SONIDO
+        PlayRandomSound(reloadSounds);
+
         yield return new WaitForSeconds(1.5f);
 
         currentAmmo = maxAmmo;
         isReloading = false;
-        Debug.Log($"Recargado! {currentAmmo}/{maxAmmo}");
+        Debug.Log($"¡Recargado! {currentAmmo}/{maxAmmo}");
     }
-    // Llamado por SpiderManGestureDetector
+
+    // Disparo desde gestos
     public void ActivateFromGesture()
     {
         if (currentAmmo > 0 && !isReloading)
+        {
             Shoot();
+        }
         else
-            Debug.Log("Sin telarañas — recarga con el gesto de grip");
+        {
+            Debug.Log("Sin telarañas — recarga con el puño");
+            PlayRandomSound(emptySounds);
+        }
+    }
+
+    // Recarga desde gestos
+    public void ActivateReloadFromGesture()
+    {
+        if (!isReloading && currentAmmo < maxAmmo)
+        {
+            StartCoroutine(Reload());
+        }
+        else if (!isReloading && currentAmmo >= maxAmmo)
+        {
+            Debug.Log("La munición ya está completa");
+        }
     }
 
     void PlayRandomSound(AudioVariation[] sounds)
@@ -131,7 +162,6 @@ public class WebShooter : MonoBehaviour
         if (audioSource == null || sounds == null || sounds.Length == 0) return;
 
         AudioVariation selected = sounds[Random.Range(0, sounds.Length)];
-
         if (selected.clip == null) return;
 
         audioSource.pitch = Random.Range(minPitch, maxPitch);
