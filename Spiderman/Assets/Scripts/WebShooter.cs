@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class WebShooter : MonoBehaviour
 {
     [Header("Configuración")]
     public GameObject webProjectilePrefab;
-    public Transform  shootPoint;
-    public float      shootForce = 20f;
+    public Transform shootPoint;
+    public float shootForce = 20f;
 
     [Header("Munición")]
     public int maxAmmo = 7;
@@ -14,7 +15,8 @@ public class WebShooter : MonoBehaviour
     [Header("Input")]
     [Tooltip("XRI Right/Activate/Value")]
     public InputActionReference triggerAction;
-    [Tooltip("XRI Right/Select/Value  (Grip)")]
+
+    [Tooltip("XRI Right/Select/Value (Grip)")]
     public InputActionReference gripAction;
 
     [System.Serializable]
@@ -26,18 +28,24 @@ public class WebShooter : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource audioSource;
-
     public AudioVariation[] shootSounds;
     public AudioVariation[] reloadSounds;
     public AudioVariation[] emptySounds;
 
-    // Pitch aleatorio
+    [Header("Pitch aleatorio")]
     [Range(0.1f, 1.2f)] public float minPitch = 0.9f;
     [Range(0.1f, 1.2f)] public float maxPitch = 1.1f;
-    private int  currentAmmo;
+
+    [Header("Debug")]
+    public bool debugLogs = false;
+
+    private int currentAmmo;
     private bool isReloading;
     private bool triggerWasPressed;
     private bool gripWasPressed;
+
+    public int CurrentAmmo => currentAmmo;
+    public bool IsReloading => isReloading;
 
     void Awake()
     {
@@ -71,10 +79,15 @@ public class WebShooter : MonoBehaviour
         if (triggerPressed && !triggerWasPressed)
         {
             if (currentAmmo > 0 && !isReloading)
+            {
+                if (debugLogs) Debug.Log($"{name}: DISPARO por mando");
                 Shoot();
+            }
             else
-                Debug.Log("Sin telarañas — usa el Grip para recargar");
+            {
+                Debug.Log("Sin telarañas — usa recarga");
                 PlayRandomSound(emptySounds);
+            }
         }
 
         triggerWasPressed = triggerPressed;
@@ -87,7 +100,10 @@ public class WebShooter : MonoBehaviour
         bool gripPressed = gripAction.action.ReadValue<float>() > 0.5f;
 
         if (gripPressed && !gripWasPressed && !isReloading)
+        {
+            if (debugLogs) Debug.Log($"{name}: RECARGA por mando");
             StartCoroutine(Reload());
+        }
 
         gripWasPressed = gripPressed;
     }
@@ -99,31 +115,56 @@ public class WebShooter : MonoBehaviour
         currentAmmo--;
         Debug.Log($"Telarañas restantes: {currentAmmo}/{maxAmmo}");
         PlayRandomSound(shootSounds);
+
         GameObject projectile = Instantiate(webProjectilePrefab, shootPoint.position, shootPoint.rotation);
 
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         if (rb != null)
+        {
             rb.AddForce(shootPoint.forward * shootForce, ForceMode.VelocityChange);
+        }
     }
 
-    System.Collections.IEnumerator Reload()
+    IEnumerator Reload()
     {
         isReloading = true;
         Debug.Log("Recargando...");
-        PlayRandomSound(reloadSounds); //SONIDO
+        PlayRandomSound(reloadSounds);
+
         yield return new WaitForSeconds(1.5f);
 
         currentAmmo = maxAmmo;
         isReloading = false;
-        Debug.Log($"Recargado! {currentAmmo}/{maxAmmo}");
+        Debug.Log($"¡Recargado! {currentAmmo}/{maxAmmo}");
     }
-    // Llamado por SpiderManGestureDetector
+
     public void ActivateFromGesture()
     {
+        if (debugLogs) Debug.Log($"{name}: intento de DISPARO por gesto");
+
         if (currentAmmo > 0 && !isReloading)
+        {
             Shoot();
+        }
         else
-            Debug.Log("Sin telarañas — recarga con el gesto de grip");
+        {
+            Debug.Log("Sin telarañas — recarga con el puño");
+            PlayRandomSound(emptySounds);
+        }
+    }
+
+    public void ActivateReloadFromGesture()
+    {
+        if (debugLogs) Debug.Log($"{name}: intento de RECARGA por gesto");
+
+        if (!isReloading && currentAmmo < maxAmmo)
+        {
+            StartCoroutine(Reload());
+        }
+        else if (!isReloading && currentAmmo >= maxAmmo)
+        {
+            Debug.Log("La munición ya está completa");
+        }
     }
 
     void PlayRandomSound(AudioVariation[] sounds)
