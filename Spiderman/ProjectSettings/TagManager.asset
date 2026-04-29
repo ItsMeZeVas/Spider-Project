@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Anchor
   - Target
-  - IndexFinger
   layers:
   - Default
   - TransparentFX
