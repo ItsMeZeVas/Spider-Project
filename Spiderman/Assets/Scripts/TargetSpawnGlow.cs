@@ -3,33 +3,46 @@ using UnityEngine;
 
 public class TargetSpawnGlow : MonoBehaviour
 {
+    [Header("Objeto visual")]
+    [Tooltip("Arrastra aquí el modelo visual del spiderbot. Si está vacío, usará este objeto.")]
+    public Transform visualRoot;
+
     [Header("Glow al aparecer")]
     public float glowDuration = 0.6f;
     public Color glowColor = Color.cyan;
     public float glowIntensity = 3f;
 
-    private Renderer targetRenderer;
-    private Material[] runtimeMaterials;
-    private Color[] originalEmissionColors;
+    private Renderer[] targetRenderers;
+    private Material[][] runtimeMaterials;
+    private Color[][] originalEmissionColors;
 
     void Awake()
     {
-        targetRenderer = GetComponent<Renderer>();
+        if (visualRoot == null)
+            visualRoot = transform;
 
-        if (targetRenderer != null)
+        targetRenderers = visualRoot.GetComponentsInChildren<Renderer>();
+
+        runtimeMaterials = new Material[targetRenderers.Length][];
+        originalEmissionColors = new Color[targetRenderers.Length][];
+
+        for (int r = 0; r < targetRenderers.Length; r++)
         {
-            runtimeMaterials = targetRenderer.materials;
-            originalEmissionColors = new Color[runtimeMaterials.Length];
+            if (targetRenderers[r] == null) continue;
 
-            for (int i = 0; i < runtimeMaterials.Length; i++)
+            runtimeMaterials[r] = targetRenderers[r].materials;
+            originalEmissionColors[r] = new Color[runtimeMaterials[r].Length];
+
+            for (int i = 0; i < runtimeMaterials[r].Length; i++)
             {
-                if (runtimeMaterials[i] != null)
-                {
-                    runtimeMaterials[i].EnableKeyword("_EMISSION");
+                Material mat = runtimeMaterials[r][i];
 
-                    if (runtimeMaterials[i].HasProperty("_EmissionColor"))
-                        originalEmissionColors[i] = runtimeMaterials[i].GetColor("_EmissionColor");
-                }
+                if (mat == null) continue;
+
+                mat.EnableKeyword("_EMISSION");
+
+                if (mat.HasProperty("_EmissionColor"))
+                    originalEmissionColors[r][i] = mat.GetColor("_EmissionColor");
             }
         }
     }
@@ -51,23 +64,37 @@ public class TargetSpawnGlow : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = 1f - (elapsed / glowDuration);
 
-            for (int i = 0; i < runtimeMaterials.Length; i++)
+            for (int r = 0; r < runtimeMaterials.Length; r++)
             {
-                if (runtimeMaterials[i] != null && runtimeMaterials[i].HasProperty("_EmissionColor"))
+                if (runtimeMaterials[r] == null) continue;
+
+                for (int i = 0; i < runtimeMaterials[r].Length; i++)
                 {
-                    Color emission = glowColor * glowIntensity * t;
-                    runtimeMaterials[i].SetColor("_EmissionColor", emission);
+                    Material mat = runtimeMaterials[r][i];
+
+                    if (mat != null && mat.HasProperty("_EmissionColor"))
+                    {
+                        Color emission = glowColor * glowIntensity * t;
+                        mat.SetColor("_EmissionColor", emission);
+                    }
                 }
             }
 
             yield return null;
         }
 
-        for (int i = 0; i < runtimeMaterials.Length; i++)
+        for (int r = 0; r < runtimeMaterials.Length; r++)
         {
-            if (runtimeMaterials[i] != null && runtimeMaterials[i].HasProperty("_EmissionColor"))
+            if (runtimeMaterials[r] == null) continue;
+
+            for (int i = 0; i < runtimeMaterials[r].Length; i++)
             {
-                runtimeMaterials[i].SetColor("_EmissionColor", originalEmissionColors[i]);
+                Material mat = runtimeMaterials[r][i];
+
+                if (mat != null && mat.HasProperty("_EmissionColor"))
+                {
+                    mat.SetColor("_EmissionColor", originalEmissionColors[r][i]);
+                }
             }
         }
     }
