@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2511473159533951087}
   m_Layer: 0
   m_Name: Telarana
-  m_TagString: Untagged
+  m_TagString: WebProjectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -6425,14 +6425,22 @@ MonoBehaviour:
   gestureShotCooldown: 0.2
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 1541467174}
-  shootForce: 20
+  shootForce: 70
   maxAmmo: 7
   triggerAction: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   gripAction: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  audioSource: {fileID: 0}
-  shootSounds: []
-  reloadSounds: []
-  emptySounds: []
+  audioSource: {fileID: 300837014}
+  shootSounds:
+  - clip: {fileID: 8300000, guid: bfdd0d73eeec0464a9e5ba7c1a79160b, type: 3}
+    volume: 0.5
+  - clip: {fileID: 8300000, guid: b640e7d01e23cf747a64db3962b70a47, type: 3}
+    volume: 1
+  reloadSounds:
+  - clip: {fileID: 8300000, guid: 7fda7a893fc716a43b46c4e9810c699d, type: 3}
+    volume: 0.5
+  emptySounds:
+  - clip: {fileID: 8300000, guid: 7347b74ca1b297243937922f4152e576, type: 3}
+    volume: 0.5
   minPitch: 0.9
   maxPitch: 1.1
 --- !u!114 &300837009
@@ -8526,6 +8534,7 @@ GameObject:
   - component: {fileID: 429477810}
   - component: {fileID: 429477818}
   - component: {fileID: 429477817}
+  - component: {fileID: 429477819}
   m_Layer: 0
   m_Name: '[BuildingBlock] Hand Tracking left'
   m_TagString: Untagged
@@ -8723,14 +8732,22 @@ MonoBehaviour:
   gestureShotCooldown: 0.2
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2016723993}
-  shootForce: 20
-  maxAmmo: 5
+  shootForce: 70
+  maxAmmo: 7
   triggerAction: {fileID: 0}
   gripAction: {fileID: 0}
-  audioSource: {fileID: 0}
-  shootSounds: []
-  reloadSounds: []
-  emptySounds: []
+  audioSource: {fileID: 429477819}
+  shootSounds:
+  - clip: {fileID: 8300000, guid: bfdd0d73eeec0464a9e5ba7c1a79160b, type: 3}
+    volume: 0.5
+  - clip: {fileID: 8300000, guid: b640e7d01e23cf747a64db3962b70a47, type: 3}
+    volume: 1
+  reloadSounds:
+  - clip: {fileID: 8300000, guid: 7fda7a893fc716a43b46c4e9810c699d, type: 3}
+    volume: 0.5
+  emptySounds:
+  - clip: {fileID: 8300000, guid: 7347b74ca1b297243937922f4152e576, type: 3}
+    volume: 0.5
   minPitch: 0.9
   maxPitch: 1.1
 --- !u!114 &429477818
@@ -8754,6 +8771,103 @@ MonoBehaviour:
   reloadBlockAfterShot: 0.35
   webShooter: {fileID: 429477817}
   debugLogs: 0
+--- !u!82 &429477819
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429477808}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &430248527 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8482147909517439867, guid: 82efbd6f209a6ab4c8e561fcd37a4810, type: 3}
@@ -8784,18 +8898,22 @@ MonoBehaviour:
   gestureShotCooldown: 0.2
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2066998787}
-  shootForce: 20
+  shootForce: 70
   maxAmmo: 7
   triggerAction: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   gripAction: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   audioSource: {fileID: 434169220}
   shootSounds:
   - clip: {fileID: 8300000, guid: bfdd0d73eeec0464a9e5ba7c1a79160b, type: 3}
-    volume: 0.362
+    volume: 0.5
   - clip: {fileID: 8300000, guid: b640e7d01e23cf747a64db3962b70a47, type: 3}
     volume: 1
-  reloadSounds: []
-  emptySounds: []
+  reloadSounds:
+  - clip: {fileID: 8300000, guid: 7fda7a893fc716a43b46c4e9810c699d, type: 3}
+    volume: 0.5
+  emptySounds:
+  - clip: {fileID: 8300000, guid: 7347b74ca1b297243937922f4152e576, type: 3}
+    volume: 0.5
   minPitch: 0.7
   maxPitch: 1.2
 --- !u!114 &434169215
@@ -20196,6 +20314,7 @@ GameObject:
   - component: {fileID: 1042887126}
   - component: {fileID: 1042887134}
   - component: {fileID: 1042887133}
+  - component: {fileID: 1042887135}
   m_Layer: 0
   m_Name: '[BuildingBlock] Hand Tracking right'
   m_TagString: Untagged
@@ -20393,14 +20512,22 @@ MonoBehaviour:
   gestureShotCooldown: 0.2
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2039984285}
-  shootForce: 20
-  maxAmmo: 5
+  shootForce: 70
+  maxAmmo: 7
   triggerAction: {fileID: 0}
   gripAction: {fileID: 0}
-  audioSource: {fileID: 0}
-  shootSounds: []
-  reloadSounds: []
-  emptySounds: []
+  audioSource: {fileID: 1042887135}
+  shootSounds:
+  - clip: {fileID: 8300000, guid: bfdd0d73eeec0464a9e5ba7c1a79160b, type: 3}
+    volume: 0.5
+  - clip: {fileID: 8300000, guid: b640e7d01e23cf747a64db3962b70a47, type: 3}
+    volume: 1
+  reloadSounds:
+  - clip: {fileID: 8300000, guid: 7fda7a893fc716a43b46c4e9810c699d, type: 3}
+    volume: 0.5
+  emptySounds:
+  - clip: {fileID: 8300000, guid: 7347b74ca1b297243937922f4152e576, type: 3}
+    volume: 0.5
   minPitch: 0.9
   maxPitch: 1.1
 --- !u!114 &1042887134
@@ -20424,6 +20551,103 @@ MonoBehaviour:
   reloadBlockAfterShot: 0.35
   webShooter: {fileID: 1042887133}
   debugLogs: 0
+--- !u!82 &1042887135
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042887124}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1044092814 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3777058534420937386, guid: 58d93148047363d45a12c673b277817d, type: 3}
@@ -35029,7 +35253,7 @@ MonoBehaviour:
   maxMovingTargetsEndgame: 15
   audioSource: {fileID: 1715833104}
   spawnClip: {fileID: 8300000, guid: 8c4b97e9d0b6d6947b1be4df40f72538, type: 3}
-  spawnVolume: 0.8
+  spawnVolume: 0.148
 --- !u!1 &1716938813 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2581742485220959495, guid: f2629ace2826e974393b395f2af2bb50, type: 3}

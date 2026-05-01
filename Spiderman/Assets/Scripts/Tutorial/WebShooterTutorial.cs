@@ -3,13 +3,13 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using System;
 
-
 public class WebShooterTutorial : MonoBehaviour
 {
     [Header("Antispam")]
     public float gestureShotCooldown = 0.20f;
 
     private float lastGestureShotTime = -999f;
+
     [Header("Configuración")]
     public GameObject webProjectilePrefab;
     public Transform shootPoint;
@@ -18,12 +18,12 @@ public class WebShooterTutorial : MonoBehaviour
     [Header("Munición")]
     public int maxAmmo = 7;
 
-    [Header("Input")]
-    [Tooltip("XRI Right/Activate/Value")]
+    [Header("Input por mandos")]
+    [Tooltip("XRI Right/Activate/Value o Left/Activate/Value")]
     public InputActionReference triggerAction;
-    [Tooltip("XRI Right/Select/Value  (Grip)")]
-    public InputActionReference gripAction;
 
+    [Tooltip("XRI Right/Select/Value o Left/Select/Value")]
+    public InputActionReference gripAction;
 
     [System.Serializable]
     public class AudioVariation
@@ -34,7 +34,6 @@ public class WebShooterTutorial : MonoBehaviour
 
     [Header("Audio")]
     public AudioSource audioSource;
-
     public AudioVariation[] shootSounds;
     public AudioVariation[] reloadSounds;
     public AudioVariation[] emptySounds;
@@ -77,9 +76,6 @@ public class WebShooterTutorial : MonoBehaviour
         HandleGrip();
     }
 
-    // ==============================
-    // INPUT TRIGGER (DISPARO NORMAL)
-    // ==============================
     void HandleTrigger()
     {
         if (triggerAction == null) return;
@@ -88,51 +84,77 @@ public class WebShooterTutorial : MonoBehaviour
 
         if (triggerPressed && !triggerWasPressed)
         {
-            if (currentAmmo > 0 && !isReloading)
-            {
-                Shoot();
-            }
-            else
-            {
-                Debug.Log("Sin telarañas — usa el Grip o gesto para recargar");
-                PlayRandomSound(emptySounds);
-            }
+            TryShoot();
         }
 
         triggerWasPressed = triggerPressed;
     }
 
-    // ==============================
-    // INPUT GRIP (RECARGA NORMAL)
-    // ==============================
     void HandleGrip()
     {
         if (gripAction == null) return;
 
         bool gripPressed = gripAction.action.ReadValue<float>() > 0.5f;
 
-        if (gripPressed && !gripWasPressed && !isReloading)
+        if (gripPressed && !gripWasPressed)
         {
-            StartCoroutine(Reload());
+            TryReload();
         }
 
         gripWasPressed = gripPressed;
     }
 
-    // ==============================
-    // DISPARO
-    // ==============================
+    public void ActivateFromGesture()
+    {
+        if (Time.time < lastGestureShotTime + gestureShotCooldown)
+            return;
+
+        lastGestureShotTime = Time.time;
+        TryShoot();
+    }
+
+    public void ActivateReloadFromGesture()
+    {
+        TryReload();
+    }
+
+    void TryShoot()
+    {
+        if (isReloading)
+            return;
+
+        if (currentAmmo <= 0)
+        {
+            Debug.Log("Sin telarañas — recarga con Grip o gesto de puño.");
+            PlayRandomSound(emptySounds);
+            return;
+        }
+
+        Shoot();
+    }
+
+    void TryReload()
+    {
+        if (!isReloading && currentAmmo < maxAmmo)
+        {
+            StartCoroutine(Reload());
+        }
+    }
+
     void Shoot()
     {
-        if (webProjectilePrefab == null || shootPoint == null) return;
+        if (webProjectilePrefab == null || shootPoint == null)
+        {
+            Debug.LogWarning($"{name}: falta Web Projectile Prefab o Shoot Point.");
+            return;
+        }
 
         currentAmmo--;
 
-        Debug.Log($"Telarañas restantes: {currentAmmo}/{maxAmmo}");
+        Debug.Log($"Tutorial - Telarañas restantes: {currentAmmo}/{maxAmmo}");
 
         PlayRandomSound(shootSounds);
 
-        // 👇 DETECTAR PRIMER DISPARO
         if (!hasShot)
         {
             hasShot = true;
@@ -153,14 +175,11 @@ public class WebShooterTutorial : MonoBehaviour
         }
     }
 
-    // ==============================
-    // RECARGA
-    // ==============================
     IEnumerator Reload()
     {
         isReloading = true;
 
-        Debug.Log("Recargando...");
+        Debug.Log("Tutorial - Recargando...");
         PlayRandomSound(reloadSounds);
 
         yield return new WaitForSeconds(1.5f);
@@ -168,9 +187,8 @@ public class WebShooterTutorial : MonoBehaviour
         currentAmmo = maxAmmo;
         isReloading = false;
 
-        Debug.Log($"Recargado! {currentAmmo}/{maxAmmo}");
+        Debug.Log($"Tutorial - Recargado: {currentAmmo}/{maxAmmo}");
 
-        // 👇 DETECTAR PRIMERA RECARGA
         if (!hasReloaded)
         {
             hasReloaded = true;
@@ -178,47 +196,15 @@ public class WebShooterTutorial : MonoBehaviour
         }
     }
 
-    // ==============================
-    // GESTOS (LLAMADOS DESDE EL DETECTOR)
-    // ==============================
-
-    // 🕷️ Disparo con gesto
-    public void ActivateFromGesture()
-    {
-        if (Time.time < lastGestureShotTime + gestureShotCooldown)
-            return;
-
-        if (currentAmmo > 0 && !isReloading)
-        {
-            lastGestureShotTime = Time.time;
-            Shoot();
-        }
-        else
-        {
-            Debug.Log("Sin telarañas — recarga con gesto");
-            PlayRandomSound(emptySounds);
-        }
-    }
-
-    // ✊ Recarga con gesto
-    public void ActivateReloadFromGesture()
-    {
-        if (!isReloading && currentAmmo < maxAmmo)
-        {
-            StartCoroutine(Reload());
-        }
-    }
-
-    // ==============================
-    // AUDIO
-    // ==============================
     void PlayRandomSound(AudioVariation[] sounds)
     {
-        if (audioSource == null || sounds == null || sounds.Length == 0) return;
+        if (audioSource == null || sounds == null || sounds.Length == 0)
+            return;
 
         AudioVariation selected = sounds[UnityEngine.Random.Range(0, sounds.Length)];
 
-        if (selected.clip == null) return;
+        if (selected.clip == null)
+            return;
 
         audioSource.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
         audioSource.PlayOneShot(selected.clip, selected.volume);
