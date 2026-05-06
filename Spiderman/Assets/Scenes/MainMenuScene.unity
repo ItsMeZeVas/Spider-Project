@@ -1003,6 +1003,7 @@ GameObject:
   - component: {fileID: 65798758}
   - component: {fileID: 65798757}
   - component: {fileID: 65798756}
+  - component: {fileID: 65798759}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1017,7 +1018,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 65798755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
@@ -1071,6 +1072,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65798759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65798755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1a9a1d119a5944aacfb87d1ec283a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.VR::UnityEngine.EventSystems.OVRInputModule
+  m_SendPointerHoverToParent: 1
+  rayTransform: {fileID: 300837002}
+  m_Cursor: {fileID: 0}
+  joyPadClickButton: 1
+  gazeClickKey: 32
+  performSphereCastForGazepointer: 0
+  useRightStickScroll: 1
+  rightStickDeadZone: 0.15
+  useSwipeScroll: 1
+  swipeDragThreshold: 2
+  swipeDragScale: 1
+  InvertSwipeXAxis: 0
+  angleDragThreshold: 1
+  m_SpherecastRadius: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_AllowActivationOnMobileDevice: 1
 --- !u!1 &66495687 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 760634872ac8e0545aea25d92fb64cf4, type: 3}
@@ -5409,7 +5442,7 @@ MonoBehaviour:
   gestureShotCooldown: 0.2
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 1541467174}
-  shootForce: 20
+  shootForce: 25
   maxAmmo: 7
   triggerAction: {fileID: 7904272356298805229, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   gripAction: {fileID: -1758520528963094988, guid: c348712bda248c246b8c49b3db54643f, type: 3}
@@ -5419,6 +5452,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 32
+  currentAmmo: 0
 --- !u!114 &300837009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5545,6 +5582,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &300837016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300837001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 1541467174}
+  webShooter: {fileID: 300837004}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1001 &304442887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6445,6 +6500,7 @@ GameObject:
   - component: {fileID: 400173095}
   - component: {fileID: 400173094}
   - component: {fileID: 400173093}
+  - component: {fileID: 400173097}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -6538,6 +6594,25 @@ RectTransform:
   m_AnchoredPosition: {x: -2.531, y: 1.891}
   m_SizeDelta: {x: 886, y: 313.8}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &400173097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400173092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.UI.TrackedDeviceGraphicRaycaster
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 2
 --- !u!1 &402500317 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1406912553242785874, guid: 820eb138b931c5e428d3fba6a0c81a0c, type: 3}
@@ -7168,6 +7243,7 @@ GameObject:
   - component: {fileID: 429477810}
   - component: {fileID: 429477818}
   - component: {fileID: 429477817}
+  - component: {fileID: 429477819}
   m_Layer: 0
   m_Name: '[BuildingBlock] Hand Tracking left'
   m_TagString: Untagged
@@ -7375,6 +7451,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &429477818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7396,6 +7476,24 @@ MonoBehaviour:
   reloadBlockAfterShot: 0.35
   webShooter: {fileID: 429477817}
   debugLogs: 0
+--- !u!114 &429477819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429477808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 2016723993}
+  webShooter: {fileID: 429477817}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1 &430248527 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8482147909517439867, guid: 82efbd6f209a6ab4c8e561fcd37a4810, type: 3}
@@ -7426,7 +7524,7 @@ MonoBehaviour:
   gestureShotCooldown: 0.2
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2066998787}
-  shootForce: 20
+  shootForce: 25
   maxAmmo: 7
   triggerAction: {fileID: -4289430672226363583, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   gripAction: {fileID: 6558622148059887818, guid: c348712bda248c246b8c49b3db54643f, type: 3}
@@ -7440,6 +7538,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.7
   maxPitch: 1.2
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 32
+  currentAmmo: 0
 --- !u!114 &434169215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7566,6 +7668,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &434169223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434169205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 2066998787}
+  webShooter: {fileID: 434169210}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1001 &447840060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10071,7 +10191,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16228,6 +16348,7 @@ GameObject:
   - component: {fileID: 1042887126}
   - component: {fileID: 1042887134}
   - component: {fileID: 1042887133}
+  - component: {fileID: 1042887135}
   m_Layer: 0
   m_Name: '[BuildingBlock] Hand Tracking right'
   m_TagString: Untagged
@@ -16435,6 +16556,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &1042887134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16456,6 +16581,24 @@ MonoBehaviour:
   reloadBlockAfterShot: 0.35
   webShooter: {fileID: 1042887133}
   debugLogs: 0
+--- !u!114 &1042887135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042887124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 2039984285}
+  webShooter: {fileID: 1042887133}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1 &1044092814 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3777058534420937386, guid: 58d93148047363d45a12c673b277817d, type: 3}
@@ -21894,6 +22037,32 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8096734104226932489, guid: 9733e4fa88518774b8a9132505e18863, type: 3}
   m_PrefabInstance: {fileID: 1357504016}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1368817707 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1c0f4263be909744c9d8070904264332, type: 3}
+  m_PrefabInstance: {fileID: 2053694806}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1368817708
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1368817707}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.24755055, y: 2.3399496, z: 3.407708}
+  m_Center: {x: -0.015684152, y: -0.012687777, z: -0.010312039}
 --- !u!1001 &1369313360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24632,6 +24801,9 @@ PrefabInstance:
       insertIndex: 2
       addedObject: {fileID: 434169210}
     - targetCorrespondingSourceObject: {fileID: 7917674758919744183, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      insertIndex: 5
+      addedObject: {fileID: 434169223}
+    - targetCorrespondingSourceObject: {fileID: 7917674758919744183, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: -1
       addedObject: {fileID: 434169215}
     - targetCorrespondingSourceObject: {fileID: 7917674758919744183, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
@@ -24646,6 +24818,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7917674758240283208, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: -1
       addedObject: {fileID: 300837014}
+    - targetCorrespondingSourceObject: {fileID: 7917674758240283208, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 300837016}
   m_SourcePrefab: {fileID: 100100000, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
 --- !u!1001 &1559332810
 PrefabInstance:
@@ -33146,10 +33321,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Forktab
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1c0f4263be909744c9d8070904264332, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1c0f4263be909744c9d8070904264332, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1368817708}
   m_SourcePrefab: {fileID: 100100000, guid: 1c0f4263be909744c9d8070904264332, type: 3}
 --- !u!1001 &2056472474
 PrefabInstance:
