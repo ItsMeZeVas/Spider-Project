@@ -7724,6 +7724,7 @@ GameObject:
   - component: {fileID: 429477810}
   - component: {fileID: 429477818}
   - component: {fileID: 429477817}
+  - component: {fileID: 429477819}
   m_Layer: 0
   m_Name: '[BuildingBlock] Hand Tracking left'
   m_TagString: Untagged
@@ -7956,6 +7957,24 @@ MonoBehaviour:
   reloadBlockAfterShot: 0.35
   webShooter: {fileID: 429477817}
   debugLogs: 0
+--- !u!114 &429477819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 429477808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 2016723993}
+  webShooter: {fileID: 429477817}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1 &430248527 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8482147909517439867, guid: 82efbd6f209a6ab4c8e561fcd37a4810, type: 3}
@@ -17904,6 +17923,7 @@ GameObject:
   - component: {fileID: 1042887126}
   - component: {fileID: 1042887134}
   - component: {fileID: 1042887133}
+  - component: {fileID: 1042887135}
   m_Layer: 0
   m_Name: '[BuildingBlock] Hand Tracking right'
   m_TagString: Untagged
@@ -18136,6 +18156,24 @@ MonoBehaviour:
   reloadBlockAfterShot: 0.35
   webShooter: {fileID: 1042887133}
   debugLogs: 0
+--- !u!114 &1042887135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042887124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 2039984285}
+  webShooter: {fileID: 1042887133}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1 &1044092814 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3777058534420937386, guid: 58d93148047363d45a12c673b277817d, type: 3}
