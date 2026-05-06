@@ -1003,6 +1003,7 @@ GameObject:
   - component: {fileID: 65798758}
   - component: {fileID: 65798757}
   - component: {fileID: 65798756}
+  - component: {fileID: 65798759}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1017,7 +1018,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 65798755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
@@ -1071,6 +1072,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65798759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65798755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1a9a1d119a5944aacfb87d1ec283a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Oculus.VR::UnityEngine.EventSystems.OVRInputModule
+  m_SendPointerHoverToParent: 1
+  rayTransform: {fileID: 300837002}
+  m_Cursor: {fileID: 0}
+  joyPadClickButton: 1
+  gazeClickKey: 32
+  performSphereCastForGazepointer: 0
+  useRightStickScroll: 1
+  rightStickDeadZone: 0.15
+  useSwipeScroll: 1
+  swipeDragThreshold: 2
+  swipeDragScale: 1
+  InvertSwipeXAxis: 0
+  angleDragThreshold: 1
+  m_SpherecastRadius: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_AllowActivationOnMobileDevice: 1
 --- !u!1 &66495687 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 760634872ac8e0545aea25d92fb64cf4, type: 3}
@@ -5766,6 +5799,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 32
+  currentAmmo: 0
 --- !u!114 &300837009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5892,6 +5929,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &300837019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300837001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 1541467174}
+  webShooter: {fileID: 300837004}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1001 &304442887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6929,6 +6984,7 @@ GameObject:
   - component: {fileID: 400173095}
   - component: {fileID: 400173094}
   - component: {fileID: 400173093}
+  - component: {fileID: 400173097}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7019,6 +7075,25 @@ RectTransform:
   m_AnchoredPosition: {x: -2.531, y: 1.891}
   m_SizeDelta: {x: 886, y: 313.8}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &400173097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400173092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.Interaction.Toolkit::UnityEngine.XR.Interaction.Toolkit.UI.TrackedDeviceGraphicRaycaster
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 2
 --- !u!1 &402500317 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1406912553242785874, guid: 820eb138b931c5e428d3fba6a0c81a0c, type: 3}
@@ -7856,6 +7931,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &429477818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7921,6 +8000,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.7
   maxPitch: 1.2
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 32
+  currentAmmo: 0
 --- !u!114 &434169215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8047,6 +8130,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &434169225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 434169205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b440e201bcecee43bf47818753b797b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicator
+  shootPoint: {fileID: 2066998787}
+  webShooter: {fileID: 434169210}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1001 &447840060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18010,6 +18111,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &1042887134
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23714,6 +23819,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.13621028, y: 0.18680221, z: 0.13621089}
   m_Center: {x: 0, y: 0.09287201, z: 0}
+--- !u!1 &1343099251 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1c0f4263be909744c9d8070904264332, type: 3}
+  m_PrefabInstance: {fileID: 2053694806}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1343099252
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1343099251}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.30232722, y: 2.3572445, z: 3.3934019}
+  m_Center: {x: 0.005770265, y: -0.048605554, z: -0.012696482}
 --- !u!1001 &1343185168
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27166,6 +27297,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7917674758919744183, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: -1
       addedObject: {fileID: 434169220}
+    - targetCorrespondingSourceObject: {fileID: 7917674758919744183, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 434169225}
     - targetCorrespondingSourceObject: {fileID: 7917674758240283208, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: -1
       addedObject: {fileID: 300837004}
@@ -27175,6 +27309,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7917674758240283208, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       insertIndex: -1
       addedObject: {fileID: 300837014}
+    - targetCorrespondingSourceObject: {fileID: 7917674758240283208, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 300837019}
   m_SourcePrefab: {fileID: 100100000, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
 --- !u!1001 &1559332810
 PrefabInstance:
@@ -36861,10 +36998,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Forktab
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1c0f4263be909744c9d8070904264332, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1c0f4263be909744c9d8070904264332, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1343099252}
   m_SourcePrefab: {fileID: 100100000, guid: 1c0f4263be909744c9d8070904264332, type: 3}
 --- !u!1001 &2056472474
 PrefabInstance:
