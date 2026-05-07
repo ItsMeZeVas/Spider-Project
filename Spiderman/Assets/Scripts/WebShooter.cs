@@ -40,7 +40,10 @@ public class WebShooter : MonoBehaviour
     [Range(0.1f, 1.2f)] public float minPitch = 0.9f;
     [Range(0.1f, 1.2f)] public float maxPitch = 1.1f;
 
-    private int currentAmmo;
+    [Header("Canvas Interaction")]
+    public LayerMask canvasLayer;
+
+    public int currentAmmo;
     private bool isReloading;
     private bool triggerWasPressed;
     private bool gripWasPressed;
@@ -115,6 +118,7 @@ public class WebShooter : MonoBehaviour
     // ==============================
     void Shoot()
     {
+        if (IsAimingAtCanvas()) return;
         if (webProjectilePrefab == null || shootPoint == null) return;
 
         currentAmmo--;
@@ -200,4 +204,24 @@ public class WebShooter : MonoBehaviour
         audioSource.pitch = Random.Range(minPitch, maxPitch);
         audioSource.PlayOneShot(selected.clip, selected.volume);
     }
+
+    // ==============================
+    // INTERACCION UI
+    // ==============================
+    bool IsAimingAtCanvas()
+    {
+        Ray ray = new Ray(shootPoint.position, shootPoint.forward);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 20f);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.GetComponent<Canvas>() != null)
+                return true;
+
+            if (((1 << hit.collider.gameObject.layer) & canvasLayer) != 0)
+                return true;
+        }
+        return false;
+    }
+    
 }

@@ -5115,6 +5115,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &300837009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6886,6 +6890,10 @@ MonoBehaviour:
     volume: 0.361
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &429477818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7074,6 +7082,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.7
   maxPitch: 1.2
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &434169215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9734,7 +9746,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15039,7 +15051,7 @@ MonoBehaviour:
   shootInstruction: {fileID: 8300000, guid: 785df522d058685489f0b66cee131922, type: 3}
   reloadInstruction: {fileID: 8300000, guid: 39661c2924b5467468ce5adecce4bf61, type: 3}
   endTutorial: {fileID: 8300000, guid: adcbdb8976dcbb74ea2380bbe319b41a, type: 3}
-  waitForTargetHit: 1
+  waitForTargetHit: 0
   fadeTransition: {fileID: 193992584}
   levelSceneName: LevelScene
   delayBeforeChangingScene: 2
@@ -15947,6 +15959,10 @@ MonoBehaviour:
   emptySounds: []
   minPitch: 0.9
   maxPitch: 1.1
+  canvasLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  currentAmmo: 0
 --- !u!114 &1042887134
 MonoBehaviour:
   m_ObjectHideFlags: 0
