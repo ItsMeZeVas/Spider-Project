@@ -7,6 +7,9 @@ public class WebShooter : MonoBehaviour
     [Header("Antispam")]
     public float gestureShotCooldown = 0.20f;
 
+    [Header("Estado de gameplay")]
+    public bool canShootGameplay = true;
+   
     private float lastGestureShotTime = -999f;
     [Header("Configuración")]
     public GameObject webProjectilePrefab;
@@ -82,6 +85,12 @@ public class WebShooter : MonoBehaviour
 
         if (triggerPressed && !triggerWasPressed)
         {
+            if (!canShootGameplay)
+            {
+                triggerWasPressed = triggerPressed;
+                return;
+            }
+
             if (currentAmmo > 0 && !isReloading)
             {
                 Shoot();
@@ -107,6 +116,12 @@ public class WebShooter : MonoBehaviour
 
         if (gripPressed && !gripWasPressed && !isReloading)
         {
+            if (!canShootGameplay)
+            {
+                gripWasPressed = gripPressed;
+                return;
+            }
+
             StartCoroutine(Reload());
         }
 
@@ -166,6 +181,8 @@ public class WebShooter : MonoBehaviour
     // 🕷️ Disparo con gesto
     public void ActivateFromGesture()
     {
+        if (!canShootGameplay) return;
+
         if (Time.time < lastGestureShotTime + gestureShotCooldown)
             return;
 
@@ -176,14 +193,15 @@ public class WebShooter : MonoBehaviour
         }
         else
         {
-            Debug.Log("Sin telarañas — recarga con gesto");
+            Debug.Log("Sin telarañas, recarga con gesto");
             PlayRandomSound(emptySounds);
         }
     }
 
-    // ✊ Recarga con gesto
     public void ActivateReloadFromGesture()
     {
+        if (!canShootGameplay) return;
+
         if (!isReloading && currentAmmo < maxAmmo)
         {
             StartCoroutine(Reload());

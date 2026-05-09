@@ -3283,6 +3283,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8096734104226932489, guid: 9733e4fa88518774b8a9132505e18863, type: 3}
   m_PrefabInstance: {fileID: 202322902}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &206698352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 206698354}
+  - component: {fileID: 206698353}
+  m_Layer: 0
+  m_Name: LevelGameplayState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &206698353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206698352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea33aa14f397424aadbf3f6a7a59671, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelGameplayState
+  gameTimer: {fileID: 681005303}
+  webShooters:
+  - {fileID: 434169210}
+  - {fileID: 300837004}
+--- !u!4 &206698354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206698352}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.7801, y: 2.72413, z: -0.12255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &207442382
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4834,6 +4882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WebShooter
   gestureShotCooldown: 0.2
+  canShootGameplay: 1
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 1541467174}
   shootForce: 70
@@ -6912,6 +6961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WebShooter
   gestureShotCooldown: 0.2
+  canShootGameplay: 1
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2016723993}
   shootForce: 70
@@ -7222,6 +7272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WebShooter
   gestureShotCooldown: 0.2
+  canShootGameplay: 1
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2066998787}
   shootForce: 70
@@ -17339,6 +17390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WebShooter
   gestureShotCooldown: 0.2
+  canShootGameplay: 1
   webProjectilePrefab: {fileID: 3140167008773273389, guid: 7ba088b12b5cbe74ea24375d7b468883, type: 3}
   shootPoint: {fileID: 2039984285}
   shootForce: 70
@@ -24186,11 +24238,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7917674758326848205, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7917674758326848207, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8806329115733545877, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_Name
@@ -34494,3 +34546,4 @@ SceneRoots:
   - {fileID: 2036488338}
   - {fileID: 986666844}
   - {fileID: 732164584}
+  - {fileID: 206698354}
