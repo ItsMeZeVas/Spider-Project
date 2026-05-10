@@ -4,8 +4,8 @@ using System.Collections;
 
 public class TutorialPracticeTarget : MonoBehaviour
 {
-    [Header("Detección")]
-    [Tooltip("Tag opcional del proyectil. Si lo dejas vacío, acepta cualquier colisión.")]
+    [Header("DetecciÃ³n")]
+    [Tooltip("Tag opcional del proyectil. Si lo dejas vacÃ­o, acepta cualquier colisiÃ³n.")]
     public string projectileTag = "WebProjectile";
 
     [Header("Feedback visual")]

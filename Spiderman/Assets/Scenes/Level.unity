@@ -3183,8 +3183,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelGameplayState
   gameTimer: {fileID: 681005303}
   webShooters:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 570766308}
+  - {fileID: 1031724852}
 --- !u!4 &206698354
 Transform:
   m_ObjectHideFlags: 0
@@ -10140,8 +10140,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneButtonActions
   mainMenuScene: Interfaz
-  tutorialScene: TutorialScene
-  levelScene: LevelScene
+  tutorialScene: Tutorial
+  levelScene: Level
   fadeTransition: {fileID: 1365994718}
 --- !u!1 &634822786 stripped
 GameObject:
