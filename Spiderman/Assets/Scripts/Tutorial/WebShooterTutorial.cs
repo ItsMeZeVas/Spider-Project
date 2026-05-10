@@ -7,7 +7,6 @@ public class WebShooterTutorial : MonoBehaviour
 {
     [Header("Antispam")]
     public float gestureShotCooldown = 0.20f;
-
     private float lastGestureShotTime = -999f;
 
     [Header("Configuración")]
@@ -46,6 +45,9 @@ public class WebShooterTutorial : MonoBehaviour
     private bool isReloading;
     private bool triggerWasPressed;
     private bool gripWasPressed;
+
+    private bool canShoot = false;
+    private bool canReload = false;
 
     public event Action OnFirstShoot;
     public event Action OnFirstReload;
@@ -118,14 +120,27 @@ public class WebShooterTutorial : MonoBehaviour
         TryReload();
     }
 
+    public void SetCanShoot(bool value)
+    {
+        canShoot = value;
+    }
+
+    public void SetCanReload(bool value)
+    {
+        canReload = value;
+    }
+
     void TryShoot()
     {
+        if (!canShoot)
+            return;
+
         if (isReloading)
             return;
 
         if (currentAmmo <= 0)
         {
-            Debug.Log("Sin telarañas — recarga con Grip o gesto de puño.");
+            Debug.Log("Sin telarañas — recarga con Grip.");
             PlayRandomSound(emptySounds);
             return;
         }
@@ -135,8 +150,17 @@ public class WebShooterTutorial : MonoBehaviour
 
     void TryReload()
     {
+        if (!canReload)
+            return;
+
         if (!isReloading && currentAmmo < maxAmmo)
         {
+            if (!hasReloaded)
+            {
+                hasReloaded = true;
+                OnFirstReload?.Invoke();
+            }
+
             StartCoroutine(Reload());
         }
     }
@@ -188,12 +212,6 @@ public class WebShooterTutorial : MonoBehaviour
         isReloading = false;
 
         Debug.Log($"Tutorial - Recargado: {currentAmmo}/{maxAmmo}");
-
-        if (!hasReloaded)
-        {
-            hasReloaded = true;
-            OnFirstReload?.Invoke();
-        }
     }
 
     void PlayRandomSound(AudioVariation[] sounds)

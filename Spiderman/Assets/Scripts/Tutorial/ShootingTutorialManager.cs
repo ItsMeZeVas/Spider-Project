@@ -9,12 +9,18 @@ public class ShootingTutorialManager : MonoBehaviour
 
     [Header("Audios del tutorial")]
     public AudioSource audioSource;
-    public AudioClip shootInstruction;
-    public AudioClip reloadInstruction;
-    public AudioClip endTutorial;
 
-    [Header("Objetivo de práctica")]
-    public bool waitForTargetHit = true;
+    [Tooltip("Primer audio: bienvenida e indicación de disparo")]
+    public AudioClip shootInstruction;
+
+    [Tooltip("Segundo audio: indicación de cómo recargar")]
+    public AudioClip reloadInstruction;
+
+    [Tooltip("Tercer audio: 'lo hiciste muy bien, ya estás listo para empezar'")]
+    public AudioClip goodJobFeedback;
+
+    [Tooltip("Cuarto audio: 'ahora nadie podrá detenerme'")]
+    public AudioClip characterLine;
 
     [Header("Transición")]
     public SceneFadeTransition fadeTransition;
@@ -23,16 +29,9 @@ public class ShootingTutorialManager : MonoBehaviour
 
     private bool shotDone = false;
     private bool reloadDone = false;
-    private bool targetHitDone = false;
-
-    void OnEnable()
-    {
-        TutorialPracticeTarget.OnAnyPracticeTargetHit += HandleTargetHit;
-    }
 
     void OnDisable()
     {
-        TutorialPracticeTarget.OnAnyPracticeTargetHit -= HandleTargetHit;
         if (shooters != null)
         {
             foreach (var shooter in shooters)
@@ -46,14 +45,12 @@ public class ShootingTutorialManager : MonoBehaviour
 
     void Start()
     {
-        // Desactivar shooters al inicio
-        SetShootersEnabled(false);
-
         if (shooters != null)
         {
             foreach (var shooter in shooters)
             {
                 if (shooter == null) continue;
+
                 shooter.OnFirstShoot += HandleFirstShoot;
                 shooter.OnFirstReload += HandleFirstReload;
             }
@@ -74,47 +71,35 @@ public class ShootingTutorialManager : MonoBehaviour
         Debug.Log("Tutorial: primera recarga detectada.");
     }
 
-    void HandleTargetHit()
-    {
-        targetHitDone = true;
-        Debug.Log("Tutorial: diana impactada.");
-    }
-
     IEnumerator TutorialFlow()
     {
         yield return new WaitForSeconds(1f);
 
-        // Reproducir instrucción de disparo y esperar que termine
+        SetShootPermission(false);
+        SetReloadPermission(false);
+
         yield return StartCoroutine(PlayInstructionAndWait(shootInstruction));
 
-        // Activar shooters cuando termina el primer audio
-        SetShootersEnabled(true);
+        SetShootPermission(true);
+        SetReloadPermission(false);
 
         yield return new WaitUntil(() => shotDone);
 
-        if (waitForTargetHit)
-            yield return new WaitUntil(() => targetHitDone);
 
-        yield return new WaitForSeconds(1f);
+        SetShootPermission(true);
+        SetReloadPermission(false);
 
-        // Desactivar shooters antes de instrucción de recarga
-        SetShootersEnabled(false);
-
-        // Reproducir instrucción de recarga y esperar que termine
         yield return StartCoroutine(PlayInstructionAndWait(reloadInstruction));
 
-        // Activar shooters para que pueda recargar
-        SetShootersEnabled(true);
+        SetShootPermission(true);
+        SetReloadPermission(true);
 
         yield return new WaitUntil(() => reloadDone);
 
-        yield return new WaitForSeconds(1f);
 
-        // Desactivar shooters al final
-        SetShootersEnabled(false);
+        yield return StartCoroutine(PlayInstructionAndWait(goodJobFeedback));
 
-        // Reproducir audio final y esperar que termine
-        yield return StartCoroutine(PlayInstructionAndWait(endTutorial));
+        yield return StartCoroutine(PlayInstructionAndWait(characterLine));
 
         yield return new WaitForSeconds(delayBeforeChangingScene);
 
@@ -123,25 +108,33 @@ public class ShootingTutorialManager : MonoBehaviour
 
     IEnumerator PlayInstructionAndWait(AudioClip clip)
     {
-        if (audioSource == null || clip == null) yield break;
+        if (audioSource == null || clip == null)
+            yield break;
+
         audioSource.PlayOneShot(clip);
         yield return new WaitForSeconds(clip.length);
     }
 
-    void SetShootersEnabled(bool enabled)
+    void SetShootPermission(bool value)
     {
         if (shooters == null) return;
+
         foreach (var shooter in shooters)
         {
             if (shooter == null) continue;
-            shooter.enabled = enabled;
+            shooter.SetCanShoot(value);
         }
     }
 
-    void PlayInstruction(AudioClip clip)
+    void SetReloadPermission(bool value)
     {
-        if (audioSource != null && clip != null)
-            audioSource.PlayOneShot(clip);
+        if (shooters == null) return;
+
+        foreach (var shooter in shooters)
+        {
+            if (shooter == null) continue;
+            shooter.SetCanReload(value);
+        }
     }
 
     void GoToLevelScene()

@@ -22,7 +22,7 @@ public class TutorialPracticeTarget : MonoBehaviour
 
     private Color originalColor;
     private Vector3 originalScale;
-    private bool feedbackRunning = false;
+    private bool alreadyHit = false;
 
     void Awake()
     {
@@ -47,26 +47,28 @@ public class TutorialPracticeTarget : MonoBehaviour
 
     void TryRegisterHit(GameObject other)
     {
+        if (alreadyHit)
+            return;
+
         if (!string.IsNullOrEmpty(projectileTag))
         {
             if (!other.CompareTag(projectileTag))
                 return;
         }
 
+        alreadyHit = true;
+
         Debug.Log($"Diana de tutorial impactada: {name}");
 
         OnAnyPracticeTargetHit?.Invoke();
 
-        if (!feedbackRunning)
-            StartCoroutine(HitFeedback());
+        StartCoroutine(HitFeedbackAndDestroy());
 
         Destroy(other, 0.05f);
     }
 
-    IEnumerator HitFeedback()
+    IEnumerator HitFeedbackAndDestroy()
     {
-        feedbackRunning = true;
-
         if (audioSource != null && hitSound != null)
             audioSource.PlayOneShot(hitSound);
 
@@ -77,11 +79,6 @@ public class TutorialPracticeTarget : MonoBehaviour
 
         yield return new WaitForSeconds(feedbackDuration);
 
-        if (targetRenderer != null && targetRenderer.material.HasProperty("_Color"))
-            targetRenderer.material.color = originalColor;
-
-        transform.localScale = originalScale;
-
-        feedbackRunning = false;
+        Destroy(gameObject);
     }
 }
