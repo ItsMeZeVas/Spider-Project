@@ -8,12 +8,12 @@ public class SceneLoader : MonoBehaviour
 
     public void IrAPatioDeJuegos()
     {
-        StartCoroutine(CargarEscena("Tutorial"));
+        StartCoroutine(CargarEscena("Tutorial Gestos"));
     }
     
     public void IrAlPueblo()
     {
-        StartCoroutine(CargarEscena("Level"));
+        StartCoroutine(CargarEscena("Interfaz Gestos"));
     }
 
     IEnumerator CargarEscena(string nombreEscena)
