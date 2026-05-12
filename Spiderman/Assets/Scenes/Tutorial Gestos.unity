@@ -2303,6 +2303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 141365422}
   - component: {fileID: 141365424}
+  - component: {fileID: 141365425}
   - component: {fileID: 141365423}
   m_Layer: 0
   m_Name: LeftTutorialShooter
@@ -2455,6 +2456,25 @@ MonoBehaviour:
     volume: 0.5
   minPitch: 0.9
   maxPitch: 1.1
+  currentAmmo: 0
+--- !u!114 &141365425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 141365421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac86632e5d473849812dd6a4f965b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicatorTutorial
+  shootPoint: {fileID: 492580882}
+  webShooterTutorial: {fileID: 141365424}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1 &141929855 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1157815733408451400, guid: 90dbb427ac5963541b1cdbc7520999e3, type: 3}
@@ -13301,6 +13321,7 @@ MonoBehaviour:
     volume: 0.5
   minPitch: 0.9
   maxPitch: 1.1
+  currentAmmo: 0
 --- !u!1001 &860676115
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14805,7 +14826,7 @@ MonoBehaviour:
   goodJobFeedback: {fileID: 8300000, guid: acdc4556eb61cf849b66b484b43fded4, type: 3}
   characterLine: {fileID: 8300000, guid: a66f7bcaf15dd3640abc51d49135f7ab, type: 3}
   fadeTransition: {fileID: 193992584}
-  levelSceneName: Level
+  levelSceneName: Level Gestos
   delayBeforeChangingScene: 2
 --- !u!4 &993862172
 Transform:
@@ -25572,6 +25593,7 @@ GameObject:
   - component: {fileID: 1728677621}
   - component: {fileID: 1728677620}
   - component: {fileID: 1728677619}
+  - component: {fileID: 1728677624}
   m_Layer: 0
   m_Name: '[BuildingBlock] Camera Rig'
   m_TagString: Untagged
@@ -25739,6 +25761,14 @@ Transform:
   - {fileID: 1791590507}
   m_Father: {fileID: 993931923}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1728677624
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728677618}
+  m_Enabled: 1
 --- !u!1 &1729803088 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3777058534420937386, guid: 58d93148047363d45a12c673b277817d, type: 3}
@@ -26195,6 +26225,7 @@ MonoBehaviour:
     volume: 0.5
   minPitch: 0.9
   maxPitch: 1.1
+  currentAmmo: 0
 --- !u!1 &1764591006
 GameObject:
   m_ObjectHideFlags: 0
@@ -31893,6 +31924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2083896862}
   - component: {fileID: 2083896864}
+  - component: {fileID: 2083896865}
   - component: {fileID: 2083896863}
   m_Layer: 0
   m_Name: RightTutorialShooter
@@ -32045,6 +32077,25 @@ MonoBehaviour:
     volume: 0.5
   minPitch: 0.9
   maxPitch: 1.1
+  currentAmmo: 0
+--- !u!114 &2083896865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083896861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac86632e5d473849812dd6a4f965b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WebShooterAimIndicatorTutorial
+  shootPoint: {fileID: 574046934}
+  webShooterTutorial: {fileID: 2083896864}
+  rayLength: 10
+  lineColor: {r: 0.5, g: 0.8, b: 1, a: 0.6}
+  lineWidth: 0.005
+  impactIndicatorPrefab: {fileID: 0}
 --- !u!1 &2090186125
 GameObject:
   m_ObjectHideFlags: 0

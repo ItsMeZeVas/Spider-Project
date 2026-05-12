@@ -41,7 +41,7 @@ public class WebShooterTutorial : MonoBehaviour
     [Range(0.1f, 1.2f)] public float minPitch = 0.9f;
     [Range(0.1f, 1.2f)] public float maxPitch = 1.1f;
 
-    private int currentAmmo;
+    public int currentAmmo;
     private bool isReloading;
     private bool triggerWasPressed;
     private bool gripWasPressed;

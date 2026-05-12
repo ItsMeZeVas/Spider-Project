@@ -14,6 +14,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level.unity
     guid: 8328f6037cefbd649b3bac4fc63a0f87
+  - enabled: 1
+    path: Assets/Scenes/Level Gestos.unity
+    guid: 82bc8ef312f1149488acf55daf03cc51
+  - enabled: 1
+    path: Assets/Scenes/Tutorial Gestos.unity
+    guid: 8a1fe2bf379001843b44b1eaa6e78ae3
+  - enabled: 1
+    path: Assets/Scenes/Interfaz Gestos.unity
+    guid: c2dd16ece666094459783a9bd3e75046
+  - enabled: 1
+    path: Assets/Scenes/Interfaz.unity
+    guid: eabac1c898bcf82468c0fca77b60268b
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}
