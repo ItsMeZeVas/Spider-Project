@@ -24,4 +24,14 @@ public class SceneLoader : MonoBehaviour
         // Cargar escena
         SceneManager.LoadScene(nombreEscena);
     }
+    public void ExitGame()
+    {
+        Debug.Log("Salir del juego");
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }
