@@ -10,12 +10,18 @@ public class SceneLoader : MonoBehaviour
     {
         StartCoroutine(CargarEscena("Tutorial Gestos"));
     }
-    
     public void IrAlPueblo()
     {
         StartCoroutine(CargarEscena("Interfaz Gestos"));
     }
-
+    public void IrATutorial()
+    {
+        StartCoroutine(CargarEscena("Tutorial"));
+    }
+    public void IrAInterfaz()
+    {
+        StartCoroutine(CargarEscena("Interfaz"));
+    }
     IEnumerator CargarEscena(string nombreEscena)
     {
         // Fade a negro
