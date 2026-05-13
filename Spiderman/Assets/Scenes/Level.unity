@@ -9772,7 +9772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10982,7 +10982,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2538a868f95ac7d4988e8579d17505f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameTimer
-  matchDuration: 4
+  matchDuration: 60
   timerText: {fileID: 445485005}
   endMessageObject: {fileID: 0}
 --- !u!4 &681005304
@@ -15872,6 +15872,62 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.30656233, y: 2.3448942, z: 3.3821583}
   m_Center: {x: 0.015065394, y: -0.05041332, z: -0.019757794}
+--- !u!1 &988848203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 988848205}
+  - component: {fileID: 988848204}
+  m_Layer: 0
+  m_Name: WristAmmoDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &988848204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988848203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db7b957e38b31a4196df55c739e9b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WristAmmoDisplay
+  wristTransform: {fileID: 1671401334}
+  skeleton: {fileID: 0}
+  displayRoot: {fileID: 1151286480}
+  webShooter: {fileID: 570766308}
+  positionOffset: {x: 0, y: 0.05, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  columnas: 2
+  espaciadoX: 0.015
+  espaciadoY: 0.015
+  tamano: 0.008
+  colorLlena: {r: 0.5, g: 0.8, b: 1, a: 1}
+  colorVacia: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+--- !u!4 &988848205
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 988848203}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 744.6531, y: 0.00001, z: 7878.0005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1671401334}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &993874817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19350,6 +19406,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8087568, y: 0.2900177, z: 0.008292084}
   m_Center: {x: 0.0000005364418, y: 0.14500885, z: 0}
+--- !u!1 &1151286480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1151286481}
+  m_Layer: 0
+  m_Name: AmmoDisplayLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1151286481
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1151286480}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6441, y: 1.90449, z: -0.12255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1152370823 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1157815733408451400, guid: 90dbb427ac5963541b1cdbc7520999e3, type: 3}
@@ -25319,6 +25406,62 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.04281662, y: 0.3069876, z: 0.37154824}
   m_Center: {x: 0.00000007636845, y: 0.1534938, z: -0.00000043958426}
+--- !u!1 &1600363213
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1600363214}
+  - component: {fileID: 1600363215}
+  m_Layer: 0
+  m_Name: WristAmmoDisplay
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1600363214
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600363213}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 744.6533, y: 0.00001001358, z: 7878.003}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1671401332}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1600363215
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1600363213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db7b957e38b31a4196df55c739e9b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WristAmmoDisplay
+  wristTransform: {fileID: 1671401332}
+  skeleton: {fileID: 0}
+  displayRoot: {fileID: 1977387658}
+  webShooter: {fileID: 1031724852}
+  positionOffset: {x: 0, y: 0.05, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  columnas: 4
+  espaciadoX: 0.015
+  espaciadoY: 0.015
+  tamano: 0.008
+  colorLlena: {r: 0.5, g: 0.8, b: 1, a: 1}
+  colorVacia: {r: 0.2, g: 0.2, b: 0.2, a: 1}
 --- !u!1 &1602060468 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2924298259548178806, guid: 61c67c3c4a5f20f4b9b0d61fea197d67, type: 3}
@@ -26066,9 +26209,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 202364688, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1644493326}
+    - targetCorrespondingSourceObject: {fileID: 202364688, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 988848205}
     - targetCorrespondingSourceObject: {fileID: 1670256625, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1501444377}
+    - targetCorrespondingSourceObject: {fileID: 1670256625, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1600363214}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1767192433, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
       insertIndex: -1
@@ -31119,6 +31268,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.43278015, y: 4.2248564, z: 0.35383397}
   m_Center: {x: 0, y: 2.1124282, z: 0.000000037252903}
+--- !u!1 &1977387658
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1977387659}
+  m_Layer: 0
+  m_Name: AmmoDisplayRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1977387659
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977387658}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6441, y: 1.90449, z: -0.12255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1978498845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34926,3 +35106,5 @@ SceneRoots:
   - {fileID: 2090186126}
   - {fileID: 118076744}
   - {fileID: 65798758}
+  - {fileID: 1151286481}
+  - {fileID: 1977387659}

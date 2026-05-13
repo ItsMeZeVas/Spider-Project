@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 
-public class WebShooter : MonoBehaviour
+public class WebShooter : MonoBehaviour, IWebShooter
 {
     [Header("Antispam")]
     public float gestureShotCooldown = 0.20f;
@@ -24,6 +24,8 @@ public class WebShooter : MonoBehaviour
     public InputActionReference triggerAction;
     [Tooltip("XRI Right/Select/Value  (Grip)")]
     public InputActionReference gripAction;
+
+
 
     [System.Serializable]
     public class AudioVariation
@@ -51,6 +53,8 @@ public class WebShooter : MonoBehaviour
     private bool triggerWasPressed;
     private bool gripWasPressed;
 
+    public int CurrentAmmo => currentAmmo;
+    public int MaxAmmo => maxAmmo;
     void Awake()
     {
         currentAmmo = maxAmmo;
