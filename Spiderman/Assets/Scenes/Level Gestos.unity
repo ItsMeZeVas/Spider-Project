@@ -8165,6 +8165,62 @@ MonoBehaviour:
   _selectSurface: {fileID: 1772291220}
   _movementProvider: {fileID: 0}
   _tiebreakerScore: 0
+--- !u!1 &442371378
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442371380}
+  - component: {fileID: 442371379}
+  m_Layer: 0
+  m_Name: WristAmmoDisplayRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &442371379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442371378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db7b957e38b31a4196df55c739e9b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WristAmmoDisplay
+  wristTransform: {fileID: 0}
+  skeleton: {fileID: 310414825}
+  displayRoot: {fileID: 1837909160}
+  webShooter: {fileID: 348191516}
+  positionOffset: {x: 0, y: 0.05, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  columnas: 2
+  espaciadoX: 0.015
+  espaciadoY: 0.015
+  tamano: 0.008
+  colorLlena: {r: 0.5, g: 0.8, b: 1, a: 1}
+  colorVacia: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+--- !u!4 &442371380
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442371378}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 741.7432, y: 1.36145, z: 7878.701}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &445485003
 GameObject:
   m_ObjectHideFlags: 0
@@ -19574,6 +19630,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1968934640}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1046417270
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1046417271}
+  m_Layer: 0
+  m_Name: AmmoDisplayLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1046417271
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046417270}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6441, y: 1.90449, z: -0.12255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1050562681
 PrefabInstance:
@@ -31871,6 +31958,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8096734104226932489, guid: 9733e4fa88518774b8a9132505e18863, type: 3}
   m_PrefabInstance: {fileID: 1836655230}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1837909160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1837909161}
+  m_Layer: 0
+  m_Name: AmmoDisplayRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1837909161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837909160}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.6441, y: 1.90449, z: -0.12255}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1840271005
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33748,6 +33866,62 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8648374304567368528, guid: 39cc7f30cb7643c4788fafb36317e6f0, type: 3}
   m_PrefabInstance: {fileID: 1978498845}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1979032437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1979032439}
+  - component: {fileID: 1979032438}
+  m_Layer: 0
+  m_Name: WristAmmoDisplayLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1979032438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979032437}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9db7b957e38b31a4196df55c739e9b35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WristAmmoDisplay
+  wristTransform: {fileID: 0}
+  skeleton: {fileID: 1724988748}
+  displayRoot: {fileID: 1046417270}
+  webShooter: {fileID: 3328050}
+  positionOffset: {x: 0, y: 0.05, z: 0}
+  rotationOffset: {x: 0, y: 0, z: 0}
+  columnas: 2
+  espaciadoX: 0.015
+  espaciadoY: 0.015
+  tamano: 0.008
+  colorLlena: {r: 0.5, g: 0.8, b: 1, a: 1}
+  colorVacia: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+--- !u!4 &1979032439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979032437}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 741.7432, y: 1.36145, z: 7878.701}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1989035766
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37467,3 +37641,7 @@ SceneRoots:
   - {fileID: 65798758}
   - {fileID: 1330106244}
   - {fileID: 863749099}
+  - {fileID: 1046417271}
+  - {fileID: 1837909161}
+  - {fileID: 1979032439}
+  - {fileID: 442371380}
