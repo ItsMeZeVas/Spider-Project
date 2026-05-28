@@ -9,6 +9,7 @@ public class ShootingTutorialManager : MonoBehaviour
 
     [Header("Audios del tutorial")]
     public AudioSource audioSource;
+    public AudioDucker audioDucker;
 
     [Tooltip("Primer audio: bienvenida e indicación de disparo")]
     public AudioClip shootInstruction;
@@ -111,8 +112,15 @@ public class ShootingTutorialManager : MonoBehaviour
         if (audioSource == null || clip == null)
             yield break;
 
+        if (audioDucker != null)
+            audioDucker.LowerMusic();
+
         audioSource.PlayOneShot(clip);
+
         yield return new WaitForSeconds(clip.length);
+
+        if (audioDucker != null)
+            audioDucker.RestoreMusic();
     }
 
     void SetShootPermission(bool value)
