@@ -8595,7 +8595,7 @@ MonoBehaviour:
   skeleton: {fileID: 310414825}
   displayRoot: {fileID: 1837909160}
   webShooter: {fileID: 348191516}
-  positionOffset: {x: 0, y: 0.05, z: 0}
+  positionOffset: {x: 0, y: -0.05, z: -0.08}
   rotationOffset: {x: 0, y: 0, z: 0}
   columnas: 5
   espaciadoX: 0.015
@@ -36019,7 +36019,7 @@ MonoBehaviour:
   skeleton: {fileID: 1724988748}
   displayRoot: {fileID: 1046417270}
   webShooter: {fileID: 3328050}
-  positionOffset: {x: 0, y: 0.05, z: 0}
+  positionOffset: {x: 0, y: -0.05, z: -0.08}
   rotationOffset: {x: 0, y: 0, z: 0}
   columnas: 5
   espaciadoX: 0.015
