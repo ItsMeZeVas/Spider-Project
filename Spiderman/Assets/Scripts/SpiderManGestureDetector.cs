@@ -6,50 +6,89 @@ public class SpiderManGestureDetector : MonoBehaviour
     public OVRHand hand;
     public OVRSkeleton skeleton;
 
+    [Header("Acción")]
+    public WebShooter webShooter;
+
     [Header("Configuración")]
-    [Tooltip("Distancia menor a esto = dedo doblado")]
-    public float curledThreshold = 0.07f;
 
-    [Tooltip("Distancia mayor o igual a esto = dedo extendido")]
-    public float extendedThreshold = 0.03f;
+    [Tooltip("Distancia para dedo doblado")]
+    public float curledThreshold = 0.055f;
 
-    [Tooltip("Hace más estricta la detección de puño")]
+    [Tooltip("Distancia para dedo extendido")]
+    public float extendedThreshold = 0.075f;
+
+    [Tooltip("Más estricto para puño")]
     public float fistExtraTolerance = 0.015f;
 
     [Header("Estabilidad")]
-    [Tooltip("Tiempo mínimo entre activaciones de cualquier gesto")]
+
+    [Tooltip("Tiempo entre activaciones")]
     public float gestureCooldown = 0.25f;
 
-    [Tooltip("Tiempo mínimo para permitir recarga después de un disparo")]
+    [Tooltip("Bloqueo de recarga después de disparo")]
     public float reloadBlockAfterShot = 0.35f;
 
-    [Header("Acción")]
-    public WebShooter webShooter;
+    [Tooltip("Tiempo que debe mantenerse el gesto")]
+    public float requiredHoldTime = 0.08f;
+
+    [Tooltip("Delay inicial")]
+    public float startupDelay = 1f;
 
     [Header("Debug")]
     public bool debugLogs = false;
 
-    private bool spiderGestureWasActive = false;
-    private bool fistGestureWasActive = false;
     private bool skeletonReady = false;
+
+    private bool spiderGestureActive = false;
+    private bool fistGestureActive = false;
+
+    private float spiderGestureStartTime;
+    private float fistGestureStartTime;
 
     private float lastGestureTime = -999f;
     private float lastShotGestureTime = -999f;
 
+    private bool detectionEnabled = false;
+
+    void Start()
+    {
+        Invoke(nameof(EnableDetection), startupDelay);
+    }
+
+    void EnableDetection()
+    {
+        detectionEnabled = true;
+
+        if (debugLogs)
+            Debug.Log($"{name}: Detección activada");
+    }
+
     void Update()
     {
+        if (!detectionEnabled)
+            return;
+
         if (hand == null || skeleton == null || webShooter == null)
             return;
 
         if (!hand.IsTracked)
             return;
 
+        if (hand.HandConfidence == OVRHand.TrackingConfidence.Low)
+            return;
+
+        //--------------------------------
+        // Esperar skeleton
+        //--------------------------------
+
         if (!skeletonReady)
         {
             if (skeleton.IsInitialized)
             {
                 skeletonReady = true;
-                if (debugLogs) Debug.Log($"{name}: Skeleton listo");
+
+                if (debugLogs)
+                    Debug.Log($"{name}: Skeleton listo");
             }
             else
             {
@@ -57,59 +96,151 @@ public class SpiderManGestureDetector : MonoBehaviour
             }
         }
 
-        bool fistActive = IsFistGesture();
-        bool spiderActive = false;
+        //--------------------------------
+        // Gestos
+        //--------------------------------
 
-        // Solo detectar disparo si NO es puño
-        if (!fistActive)
-            spiderActive = IsSpiderManGesture();
+        bool fistDetected = IsFistGesture();
 
-        bool cooldownPassed = Time.time >= lastGestureTime + gestureCooldown;
-        bool reloadWindowPassed = Time.time >= lastShotGestureTime + reloadBlockAfterShot;
+        bool spiderDetected = false;
 
-        // RECARGA
-        if (fistActive && !fistGestureWasActive && cooldownPassed && reloadWindowPassed)
-        {
-            if (debugLogs) Debug.Log($"{name}: ✊ RECARGA detectada");
-            webShooter.ActivateReloadFromGesture();
-            lastGestureTime = Time.time;
-        }
+        // Evitar disparo si es puño
+        if (!fistDetected)
+            spiderDetected = IsSpiderManGesture();
 
+        bool cooldownPassed =
+            Time.time >= lastGestureTime + gestureCooldown;
+
+        bool reloadWindowPassed =
+            Time.time >= lastShotGestureTime + reloadBlockAfterShot;
+
+        //--------------------------------
         // DISPARO
-        if (spiderActive && !spiderGestureWasActive && cooldownPassed)
+        //--------------------------------
+
+        if (spiderDetected)
         {
-            if (debugLogs) Debug.Log($"{name}: 🕷️ DISPARO detectado");
-            webShooter.ActivateFromGesture();
-            lastGestureTime = Time.time;
-            lastShotGestureTime = Time.time;
+            if (!spiderGestureActive)
+            {
+                spiderGestureActive = true;
+                spiderGestureStartTime = Time.time;
+            }
+
+            bool holdPassed =
+                Time.time >= spiderGestureStartTime + requiredHoldTime;
+
+            if (holdPassed && cooldownPassed)
+            {
+                if (debugLogs)
+                    Debug.Log($"{name}: 🕷️ DISPARO");
+
+                webShooter.ActivateFromGesture();
+
+                lastGestureTime = Time.time;
+                lastShotGestureTime = Time.time;
+
+                spiderGestureStartTime = Time.time + 999f;
+            }
+        }
+        else
+        {
+            spiderGestureActive = false;
         }
 
-        fistGestureWasActive = fistActive;
-        spiderGestureWasActive = spiderActive;
+        //--------------------------------
+        // RECARGA
+        //--------------------------------
+
+        if (fistDetected)
+        {
+            if (!fistGestureActive)
+            {
+                fistGestureActive = true;
+                fistGestureStartTime = Time.time;
+            }
+
+            bool holdPassed =
+                Time.time >= fistGestureStartTime + requiredHoldTime;
+
+            if (holdPassed &&
+                cooldownPassed &&
+                reloadWindowPassed)
+            {
+                if (debugLogs)
+                    Debug.Log($"{name}: ✊ RECARGA");
+
+                webShooter.ActivateReloadFromGesture();
+
+                lastGestureTime = Time.time;
+
+                fistGestureStartTime = Time.time + 999f;
+            }
+        }
+        else
+        {
+            fistGestureActive = false;
+        }
     }
+
+    //--------------------------------
+    // GESTO SPIDERMAN
+    //--------------------------------
 
     bool IsSpiderManGesture()
     {
-        bool thumbExtended = IsExtended(OVRSkeleton.BoneId.Hand_ThumbTip);
-        bool indexExtended = IsExtended(OVRSkeleton.BoneId.Hand_IndexTip);
-        bool pinkyExtended = IsExtended(OVRSkeleton.BoneId.Hand_PinkyTip);
+        bool indexExtended =
+            IsExtended(OVRSkeleton.BoneId.Hand_IndexTip);
 
-        bool middleCurled = IsCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
-        bool ringCurled = IsCurled(OVRSkeleton.BoneId.Hand_RingTip);
+        bool pinkyExtended =
+            IsExtended(OVRSkeleton.BoneId.Hand_PinkyTip);
 
-        return thumbExtended && indexExtended && pinkyExtended && middleCurled && ringCurled;
+        bool middleCurled =
+            IsCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
+
+        bool ringCurled =
+            IsCurled(OVRSkeleton.BoneId.Hand_RingTip);
+
+        // Pulgar ignorado para estabilidad
+
+        return
+            indexExtended &&
+            pinkyExtended &&
+            middleCurled &&
+            ringCurled;
     }
+
+    //--------------------------------
+    // GESTO PUÑO
+    //--------------------------------
 
     bool IsFistGesture()
     {
-        bool thumbCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_ThumbTip);
-        bool indexCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_IndexTip);
-        bool middleCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
-        bool ringCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_RingTip);
-        bool pinkyCurled = IsStrongCurled(OVRSkeleton.BoneId.Hand_PinkyTip);
+        bool thumbCurled =
+            IsStrongCurled(OVRSkeleton.BoneId.Hand_ThumbTip);
 
-        return thumbCurled && indexCurled && middleCurled && ringCurled && pinkyCurled;
+        bool indexCurled =
+            IsStrongCurled(OVRSkeleton.BoneId.Hand_IndexTip);
+
+        bool middleCurled =
+            IsStrongCurled(OVRSkeleton.BoneId.Hand_MiddleTip);
+
+        bool ringCurled =
+            IsStrongCurled(OVRSkeleton.BoneId.Hand_RingTip);
+
+        bool pinkyCurled =
+            IsStrongCurled(OVRSkeleton.BoneId.Hand_PinkyTip);
+
+        return
+            thumbCurled &&
+            indexCurled &&
+            middleCurled &&
+            ringCurled &&
+            pinkyCurled;
     }
+
+    //--------------------------------
+    // DEDO EXTENDIDO
+    //--------------------------------
 
     bool IsExtended(OVRSkeleton.BoneId tipId)
     {
@@ -119,9 +250,18 @@ public class SpiderManGestureDetector : MonoBehaviour
         if (tip == null || wrist == null)
             return false;
 
-        float distance = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
+        float distance =
+            Vector3.Distance(
+                tip.Transform.position,
+                wrist.Transform.position
+            );
+
         return distance >= extendedThreshold;
     }
+
+    //--------------------------------
+    // DEDO DOBLADO
+    //--------------------------------
 
     bool IsCurled(OVRSkeleton.BoneId tipId)
     {
@@ -131,9 +271,18 @@ public class SpiderManGestureDetector : MonoBehaviour
         if (tip == null || wrist == null)
             return false;
 
-        float distance = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
-        return distance < curledThreshold;
+        float distance =
+            Vector3.Distance(
+                tip.Transform.position,
+                wrist.Transform.position
+            );
+
+        return distance <= curledThreshold;
     }
+
+    //--------------------------------
+    // DEDO MUY DOBLADO
+    //--------------------------------
 
     bool IsStrongCurled(OVRSkeleton.BoneId tipId)
     {
@@ -143,9 +292,19 @@ public class SpiderManGestureDetector : MonoBehaviour
         if (tip == null || wrist == null)
             return false;
 
-        float distance = Vector3.Distance(tip.Transform.position, wrist.Transform.position);
-        return distance < (curledThreshold - fistExtraTolerance);
+        float distance =
+            Vector3.Distance(
+                tip.Transform.position,
+                wrist.Transform.position
+            );
+
+        return distance <=
+               (curledThreshold - fistExtraTolerance);
     }
+
+    //--------------------------------
+    // Obtener hueso
+    //--------------------------------
 
     OVRBone GetBone(OVRSkeleton.BoneId id)
     {

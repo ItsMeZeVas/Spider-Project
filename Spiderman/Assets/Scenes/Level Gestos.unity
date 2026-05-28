@@ -6153,12 +6153,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpiderManGestureDetector
   hand: {fileID: 310414826}
   skeleton: {fileID: 310414825}
+  webShooter: {fileID: 348191516}
   curledThreshold: 0.07
   extendedThreshold: 0.03
   fistExtraTolerance: 0.015
   gestureCooldown: 0.25
   reloadBlockAfterShot: 0.35
-  webShooter: {fileID: 348191516}
+  requiredHoldTime: 0.1
+  startupDelay: 1
   debugLogs: 1
 --- !u!1 &311253088 stripped
 GameObject:
@@ -8181,13 +8183,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpiderManGestureDetector
   hand: {fileID: 429477815}
-  skeleton: {fileID: 429477814}
+  skeleton: {fileID: 0}
+  webShooter: {fileID: 429477817}
   curledThreshold: 0.07
   extendedThreshold: 0.03
   fistExtraTolerance: 0.015
   gestureCooldown: 0.25
   reloadBlockAfterShot: 0.35
-  webShooter: {fileID: 429477817}
+  requiredHoldTime: 0.1
+  startupDelay: 1
   debugLogs: 0
 --- !u!82 &429477819
 AudioSource:
@@ -20190,13 +20194,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpiderManGestureDetector
   hand: {fileID: 1042887131}
-  skeleton: {fileID: 1042887130}
+  skeleton: {fileID: 0}
+  webShooter: {fileID: 1042887133}
   curledThreshold: 0.07
   extendedThreshold: 0.03
   fistExtraTolerance: 0.015
   gestureCooldown: 0.25
   reloadBlockAfterShot: 0.35
-  webShooter: {fileID: 1042887133}
+  requiredHoldTime: 0.1
+  startupDelay: 1
   debugLogs: 0
 --- !u!82 &1042887135
 AudioSource:
@@ -31277,12 +31283,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpiderManGestureDetector
   hand: {fileID: 1724988749}
   skeleton: {fileID: 1724988748}
+  webShooter: {fileID: 3328050}
   curledThreshold: 0.07
   extendedThreshold: 0.03
   fistExtraTolerance: 0.015
   gestureCooldown: 0.25
   reloadBlockAfterShot: 0.35
-  webShooter: {fileID: 3328050}
+  requiredHoldTime: 0.1
+  startupDelay: 1
   debugLogs: 1
 --- !u!1 &1725035742 stripped
 GameObject:
