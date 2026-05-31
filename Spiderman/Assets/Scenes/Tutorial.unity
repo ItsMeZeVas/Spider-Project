@@ -15113,9 +15113,9 @@ MonoBehaviour:
   - {fileID: 851752784}
   audioSource: {fileID: 993862170}
   audioDucker: {fileID: 1284108967}
-  shootInstruction: {fileID: 8300000, guid: 785df522d058685489f0b66cee131922, type: 3}
-  reloadInstruction: {fileID: 8300000, guid: 4cfab0cb0ea03b84eb0433e0f32b3d63, type: 3}
-  goodJobFeedback: {fileID: 8300000, guid: acdc4556eb61cf849b66b484b43fded4, type: 3}
+  shootInstruction: {fileID: 8300000, guid: a15ac8424174b124485988955a9245f5, type: 3}
+  reloadInstruction: {fileID: 8300000, guid: 7a2f0c6b7265c4e40973769195bc5ecc, type: 3}
+  goodJobFeedback: {fileID: 8300000, guid: 6fc8aaaad4e41824eadd0839a576ee30, type: 3}
   characterLine: {fileID: 8300000, guid: a66f7bcaf15dd3640abc51d49135f7ab, type: 3}
   fadeTransition: {fileID: 193992584}
   levelSceneName: Level
