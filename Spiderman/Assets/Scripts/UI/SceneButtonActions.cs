@@ -8,33 +8,16 @@ public class SceneButtonActions : MonoBehaviour
     public string tutorialScene = "TutorialScene";
     public string levelScene = "LevelScene";
 
-    [Header("Fade")]
-    public SceneFadeTransition fadeTransition;
+    private SceneFadeTransition fadeTransition;
 
-    public void GoToTutorial()
-    {
-        LoadScene(tutorialScene);
-    }
-
-    public void StartGame()
-    {
-        LoadScene(levelScene);
-    }
-
-    public void RestartLevel()
-    {
-        LoadScene(levelScene);
-    }
-
-    public void GoToMainMenu()
-    {
-        LoadScene(mainMenuScene);
-    }
+    public void GoToTutorial()  => LoadScene(tutorialScene);
+    public void StartGame()     => LoadScene(levelScene);
+    public void RestartLevel()  => LoadScene(levelScene);
+    public void GoToMainMenu()  => LoadScene(mainMenuScene);
 
     public void ExitGame()
     {
         Debug.Log("Salir del juego");
-
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
@@ -44,13 +27,14 @@ public class SceneButtonActions : MonoBehaviour
 
     private void LoadScene(string sceneName)
     {
+        if (fadeTransition == null)
+            fadeTransition = FindObjectOfType<SceneFadeTransition>();
+
         if (fadeTransition != null)
-        {
             fadeTransition.LoadSceneWithFade(sceneName);
-        }
         else
         {
-            Debug.LogWarning("No hay FadeTransition asignado. Cargando escena directamente.");
+            Debug.LogWarning("No hay FadeTransition en la escena. Cargando directamente.");
             SceneManager.LoadScene(sceneName);
         }
     }

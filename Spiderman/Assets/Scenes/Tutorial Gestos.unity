@@ -1580,7 +1580,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 103245887}
-  - component: {fileID: 103245886}
+  - component: {fileID: 103245888}
   m_Layer: 0
   m_Name: SceneLoadLogger
   m_TagString: Untagged
@@ -1588,18 +1588,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &103245886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 103245885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9751b487399137946b5a42dbcc31b61d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SceneLoadLogger
 --- !u!4 &103245887
 Transform:
   m_ObjectHideFlags: 0
@@ -1615,6 +1603,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &103245888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 103245885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e45e95ddc10f774fbf14c49289fab9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
 --- !u!1001 &104485911
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3618,7 +3618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4d419ae0795354d96f3f4a5a34634d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneFadeTransition
-  fadeImage: {fileID: 630710479}
   fadeDuration: 0.8
   fadeInOnStart: 1
 --- !u!4 &193992585
