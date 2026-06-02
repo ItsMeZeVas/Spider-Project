@@ -13117,7 +13117,6 @@ MonoBehaviour:
   mainMenuScene: Interfaz Gestos
   tutorialScene: Tutorial Gestos
   levelScene: Level Gestos
-  fadeTransition: {fileID: 1365994718}
 --- !u!1 &634822786 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e03cbcdcee58c8e4ab6df222b32f4812, type: 3}
@@ -19174,7 +19173,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &986666844
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27264,7 +27263,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4d419ae0795354d96f3f4a5a34634d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneFadeTransition
-  fadeImage: {fileID: 97795438}
   fadeDuration: 0.8
   fadeInOnStart: 1
 --- !u!4 &1365994719
